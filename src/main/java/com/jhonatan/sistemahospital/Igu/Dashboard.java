@@ -92,6 +92,7 @@ public class Dashboard extends javax.swing.JFrame {
         btn_prin.setBackground(new java.awt.Color(0, 153, 204));
         btn_prin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_prin.setForeground(new java.awt.Color(255, 255, 255));
+        btn_prin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/hospital.png"))); // NOI18N
         btn_prin.setText("Principal");
         btn_prin.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_prin.setBorderPainted(false);
@@ -108,6 +109,7 @@ public class Dashboard extends javax.swing.JFrame {
         btn_lends.setBackground(new java.awt.Color(0, 153, 204));
         btn_lends.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_lends.setForeground(new java.awt.Color(255, 255, 255));
+        btn_lends.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/paciente.png"))); // NOI18N
         btn_lends.setText("Pacientes");
         btn_lends.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_lends.setBorderPainted(false);
@@ -124,6 +126,7 @@ public class Dashboard extends javax.swing.JFrame {
         btn_returns.setBackground(new java.awt.Color(0, 153, 204));
         btn_returns.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_returns.setForeground(new java.awt.Color(255, 255, 255));
+        btn_returns.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/equipo-medico.png"))); // NOI18N
         btn_returns.setText("Doctores");
         btn_returns.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_returns.setBorderPainted(false);
@@ -140,6 +143,7 @@ public class Dashboard extends javax.swing.JFrame {
         btn_users.setBackground(new java.awt.Color(0, 153, 204));
         btn_users.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_users.setForeground(new java.awt.Color(255, 255, 255));
+        btn_users.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/carnet-de-identidad.png"))); // NOI18N
         btn_users.setText("Admisiones");
         btn_users.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_users.setBorderPainted(false);
@@ -156,6 +160,7 @@ public class Dashboard extends javax.swing.JFrame {
         btn_books.setBackground(new java.awt.Color(0, 153, 204));
         btn_books.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_books.setForeground(new java.awt.Color(255, 255, 255));
+        btn_books.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/provincia (2).png"))); // NOI18N
         btn_books.setText("Provincias");
         btn_books.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_books.setBorderPainted(false);
@@ -172,6 +177,7 @@ public class Dashboard extends javax.swing.JFrame {
         btn_reports.setBackground(new java.awt.Color(0, 153, 204));
         btn_reports.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_reports.setForeground(new java.awt.Color(255, 255, 255));
+        btn_reports.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/apagar.png"))); // NOI18N
         btn_reports.setText("Salir");
         btn_reports.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_reports.setBorderPainted(false);
