@@ -81,7 +81,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         background.setBackground(new java.awt.Color(255, 255, 255));
 
-        menu.setBackground(new java.awt.Color(13, 71, 161));
+        menu.setBackground(new java.awt.Color(0, 153, 204));
         menu.setPreferredSize(new java.awt.Dimension(270, 640));
 
         appName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -89,7 +89,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jSeparator1.setPreferredSize(new java.awt.Dimension(50, 5));
 
-        btn_prin.setBackground(new java.awt.Color(21, 101, 192));
+        btn_prin.setBackground(new java.awt.Color(0, 153, 204));
         btn_prin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_prin.setForeground(new java.awt.Color(255, 255, 255));
         btn_prin.setText("Principal");
@@ -105,7 +105,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_lends.setBackground(new java.awt.Color(21, 101, 192));
+        btn_lends.setBackground(new java.awt.Color(0, 153, 204));
         btn_lends.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_lends.setForeground(new java.awt.Color(255, 255, 255));
         btn_lends.setText("Pacientes");
@@ -121,7 +121,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_returns.setBackground(new java.awt.Color(21, 101, 192));
+        btn_returns.setBackground(new java.awt.Color(0, 153, 204));
         btn_returns.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_returns.setForeground(new java.awt.Color(255, 255, 255));
         btn_returns.setText("Doctores");
@@ -137,7 +137,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_users.setBackground(new java.awt.Color(21, 101, 192));
+        btn_users.setBackground(new java.awt.Color(0, 153, 204));
         btn_users.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_users.setForeground(new java.awt.Color(255, 255, 255));
         btn_users.setText("Admisiones");
@@ -153,7 +153,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_books.setBackground(new java.awt.Color(21, 101, 192));
+        btn_books.setBackground(new java.awt.Color(0, 153, 204));
         btn_books.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_books.setForeground(new java.awt.Color(255, 255, 255));
         btn_books.setText("Provincias");
@@ -169,7 +169,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_reports.setBackground(new java.awt.Color(21, 101, 192));
+        btn_reports.setBackground(new java.awt.Color(0, 153, 204));
         btn_reports.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_reports.setForeground(new java.awt.Color(255, 255, 255));
         btn_reports.setText("Salir");
@@ -229,7 +229,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(btn_reports, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
-        header.setBackground(new java.awt.Color(25, 118, 210));
+        header.setBackground(new java.awt.Color(0, 153, 204));
         header.setPreferredSize(new java.awt.Dimension(744, 150));
 
         navText.setText("Administración/Control/Hospital");
@@ -321,7 +321,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_usersActionPerformed
 
     private void btn_booksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_booksActionPerformed
-        System.out.println("");
+        Dashboard.ShowJPanel(new provincia());
     }//GEN-LAST:event_btn_booksActionPerformed
 
     private void btn_reportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportsActionPerformed
