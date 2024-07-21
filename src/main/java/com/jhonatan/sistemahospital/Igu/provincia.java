@@ -1,11 +1,10 @@
 package com.jhonatan.sistemahospital.Igu;
 
 import java.awt.Color;
-import javax.swing.table.DefaultTableModel;
 
-public class Provincias extends javax.swing.JPanel {
+public class provincia extends javax.swing.JPanel {
 
-    public Provincias() {
+    public provincia() {
         initComponents();
         InitStyles();
     }
@@ -13,7 +12,7 @@ public class Provincias extends javax.swing.JPanel {
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
-        txtBuscarProvincia.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
+        txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
     }
 
     @SuppressWarnings("unchecked")
@@ -22,7 +21,7 @@ public class Provincias extends javax.swing.JPanel {
 
         bg = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
-        txtBuscarProvincia = new javax.swing.JTextField();
+        txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProvincias = new javax.swing.JTable();
@@ -34,7 +33,7 @@ public class Provincias extends javax.swing.JPanel {
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
-        title.setText("Provincias");
+        title.setText("Province");
 
         btnBuscar.setBackground(new java.awt.Color(18, 90, 173));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -137,7 +136,7 @@ public class Provincias extends javax.swing.JPanel {
                                 .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addComponent(txtBuscarProvincia)
+                                .addComponent(txtBuscar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBuscar)))
                         .addGap(50, 50, 50))))
@@ -149,7 +148,7 @@ public class Provincias extends javax.swing.JPanel {
                 .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtBuscarProvincia, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
@@ -178,7 +177,7 @@ public class Provincias extends javax.swing.JPanel {
     }//GEN-LAST:event_tblProvinciasMousePressed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        System.out.println("");
+        Dashboard.ShowJPanel(new registro());
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
@@ -203,6 +202,6 @@ public class Provincias extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblProvincias;
     private javax.swing.JLabel title;
-    private javax.swing.JTextField txtBuscarProvincia;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }
