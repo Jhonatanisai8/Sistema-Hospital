@@ -10,6 +10,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import javax.print.Doc;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
@@ -320,7 +321,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_lendsActionPerformed
 
     private void btn_returnsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_returnsActionPerformed
-        System.out.println("");
+        Dashboard.ShowJPanel(new Doctores());
     }//GEN-LAST:event_btn_returnsActionPerformed
 
     private void btn_usersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_usersActionPerformed
