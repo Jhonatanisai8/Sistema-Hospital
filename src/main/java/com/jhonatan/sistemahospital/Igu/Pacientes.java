@@ -189,7 +189,7 @@ public class Pacientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        Dashboard.ShowJPanel(new registroPacientes());
+        Dashboard.ShowJPanel(new RegistroPacientes());
     }//GEN-LAST:event_btnNuevoActionPerformed
 
 
