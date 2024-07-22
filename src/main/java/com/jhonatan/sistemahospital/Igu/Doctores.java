@@ -3,18 +3,18 @@ package com.jhonatan.sistemahospital.Igu;
 import java.awt.Color;
 
 public class Doctores extends javax.swing.JPanel {
-
+    
     public Doctores() {
         initComponents();
         InitStyles();
     }
-
+    
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
         txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -177,7 +177,7 @@ public class Doctores extends javax.swing.JPanel {
     }//GEN-LAST:event_tblDoctoresMousePressed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        System.out.println("");
+        Dashboard.ShowJPanel(new registroDoctor());
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
