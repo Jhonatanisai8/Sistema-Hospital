@@ -89,14 +89,14 @@ public class Dashboard extends javax.swing.JFrame {
 
         jSeparator1.setPreferredSize(new java.awt.Dimension(50, 5));
 
-        btn_prin.setBackground(new java.awt.Color(0, 153, 204));
+        btn_prin.setBackground(new java.awt.Color(0, 102, 204));
         btn_prin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_prin.setForeground(new java.awt.Color(255, 255, 255));
         btn_prin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/hospital.png"))); // NOI18N
         btn_prin.setText("Principal");
         btn_prin.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_prin.setBorderPainted(false);
-        btn_prin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_prin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_prin.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_prin.setIconTextGap(13);
         btn_prin.setInheritsPopupMenu(true);
@@ -106,14 +106,14 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_lends.setBackground(new java.awt.Color(0, 153, 204));
+        btn_lends.setBackground(new java.awt.Color(0, 102, 204));
         btn_lends.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_lends.setForeground(new java.awt.Color(255, 255, 255));
         btn_lends.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/paciente.png"))); // NOI18N
         btn_lends.setText("Pacientes");
         btn_lends.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_lends.setBorderPainted(false);
-        btn_lends.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_lends.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_lends.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_lends.setIconTextGap(13);
         btn_lends.setInheritsPopupMenu(true);
@@ -123,14 +123,14 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_returns.setBackground(new java.awt.Color(0, 153, 204));
+        btn_returns.setBackground(new java.awt.Color(0, 102, 204));
         btn_returns.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_returns.setForeground(new java.awt.Color(255, 255, 255));
         btn_returns.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/equipo-medico.png"))); // NOI18N
         btn_returns.setText("Doctores");
         btn_returns.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_returns.setBorderPainted(false);
-        btn_returns.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_returns.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_returns.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_returns.setIconTextGap(13);
         btn_returns.setInheritsPopupMenu(true);
@@ -140,14 +140,14 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_users.setBackground(new java.awt.Color(0, 153, 204));
+        btn_users.setBackground(new java.awt.Color(0, 102, 204));
         btn_users.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_users.setForeground(new java.awt.Color(255, 255, 255));
         btn_users.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/carnet-de-identidad.png"))); // NOI18N
         btn_users.setText("Admisiones");
         btn_users.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_users.setBorderPainted(false);
-        btn_users.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_users.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_users.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_users.setIconTextGap(13);
         btn_users.setInheritsPopupMenu(true);
@@ -157,14 +157,14 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_books.setBackground(new java.awt.Color(0, 153, 204));
+        btn_books.setBackground(new java.awt.Color(0, 102, 204));
         btn_books.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_books.setForeground(new java.awt.Color(255, 255, 255));
         btn_books.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/provincia (2).png"))); // NOI18N
         btn_books.setText("Provincias");
         btn_books.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_books.setBorderPainted(false);
-        btn_books.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_books.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_books.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_books.setIconTextGap(13);
         btn_books.setInheritsPopupMenu(true);
@@ -174,14 +174,14 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btn_reports.setBackground(new java.awt.Color(0, 153, 204));
+        btn_reports.setBackground(new java.awt.Color(0, 102, 204));
         btn_reports.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_reports.setForeground(new java.awt.Color(255, 255, 255));
         btn_reports.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/apagar.png"))); // NOI18N
         btn_reports.setText("Salir");
         btn_reports.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 13, 1, 1, new java.awt.Color(0, 0, 0)));
         btn_reports.setBorderPainted(false);
-        btn_reports.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_reports.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_reports.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_reports.setIconTextGap(13);
         btn_reports.setInheritsPopupMenu(true);
@@ -232,7 +232,8 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(btn_books, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(menuLayout.createSequentialGroup()
                         .addGap(250, 250, 250)
-                        .addComponent(btn_reports, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btn_reports, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(208, Short.MAX_VALUE))
         );
 
         header.setBackground(new java.awt.Color(0, 153, 204));
@@ -315,7 +316,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_prinActionPerformed
 
     private void btn_lendsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lendsActionPerformed
-        System.out.println("");
+        Dashboard.ShowJPanel(new Pacientes());
     }//GEN-LAST:event_btn_lendsActionPerformed
 
     private void btn_returnsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_returnsActionPerformed
