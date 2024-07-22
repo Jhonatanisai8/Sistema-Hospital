@@ -4,19 +4,19 @@ import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
 
 public class admisiones extends javax.swing.JPanel {
-
+    
     public admisiones() {
         initComponents();
-
+        
         InitStyles();
     }
-
+    
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
         txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -172,7 +172,7 @@ public class admisiones extends javax.swing.JPanel {
     }//GEN-LAST:event_btlAdmisionesMousePressed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        System.out.println("");
+        Dashboard.ShowJPanel(new RegistroAdmisiones());
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBorarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorarActionPerformed
