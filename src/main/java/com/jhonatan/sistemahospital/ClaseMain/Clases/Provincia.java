@@ -17,4 +17,21 @@ public class Provincia {
         this.nombre = nombre;
     }
 
+    public char getIdProvincia() {
+        return idProvincia;
+    }
+
+    public void setIdProvincia(char idProvincia) {
+        this.idProvincia = idProvincia;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    
 }
