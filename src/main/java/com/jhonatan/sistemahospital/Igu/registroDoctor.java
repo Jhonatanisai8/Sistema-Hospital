@@ -1,6 +1,7 @@
 package com.jhonatan.sistemahospital.Igu;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
 
 import javax.swing.JOptionPane;
 import java.sql.*;
@@ -12,7 +13,7 @@ import com.jhonatan.sistemahospital.DaoImplementacion.ImpleDoctorDao;
 
 public class registroDoctor extends javax.swing.JPanel {
 
-    /*Instancias de tipo de ImpleDoctorDao y Doctor */
+    /* Instancias de tipo de ImpleDoctorDao y Doctor */
     ImpleDoctorDao impleDoctorDao = new ImpleDoctorDao();
     Doctor doctor = new Doctor();
 
@@ -43,7 +44,47 @@ public class registroDoctor extends javax.swing.JPanel {
         txtNombre.requestFocus();
     }
 
- 
+    private void registrarDatos() {
+        String mensaje = ValidacionCamposDoctor.validarCampos(txtNombre, txtApellido, txtEspecialidad);
+        /* variables para los atributos del dotor */
+        String nombre, apellido, especialidad;
+        if (mensaje.equals("")) {
+            try {
+                /* Mos conectamos a la base de datos */
+                conexion = instanciaMYSQL.conectarConBaseDatos();
+                /* si esta conexion */
+                if (conexion.getAutoCommit()) {
+                    conexion.setAutoCommit(false);
+                }
+
+                nombre = txtNombre.getText();
+                apellido = txtApellido.getText();
+                especialidad = txtEspecialidad.getText();
+
+                /* creamos el objeto de tipo doctor */
+                doctor = new Doctor(nombre, apellido, especialidad);
+                /* llamamos al metodo insertar de la clase impleDoctorDao */
+                impleDoctorDao.insertarDoctor(doctor);
+                /* Hacemos el commit */
+                conexion.commit();
+                JOptionPane.showMessageDialog(null, "Doctor registrado correctamente ", "REGISTRO DE DOCTOR",
+                        JOptionPane.INFORMATION_MESSAGE);
+                this.limpiarCampos();
+
+            } catch (HeadlessException | NumberFormatException | SQLException e) {
+                System.out
+                        .println("Error en el boton guardar al momento de insertar doctor: " + e.getMessage().toString());
+                try {
+                    conexion.rollback();
+                } catch (SQLException ex) {
+                    System.out.println("Error boton guardar doctor: " + ex.toString());
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor verificar el campo " + mensaje + "!.", "ATENCIÓN",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
@@ -196,7 +237,7 @@ public class registroDoctor extends javax.swing.JPanel {
 
     private void btnSubirActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSubirActionPerformed
         System.out.println("");
-        this.ingresarDatos();
+        this.registrarDatos();
     }// GEN-LAST:event_btnSubirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
