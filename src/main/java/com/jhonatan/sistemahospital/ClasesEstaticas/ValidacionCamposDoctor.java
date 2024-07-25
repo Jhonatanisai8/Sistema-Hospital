@@ -8,21 +8,20 @@ public class ValidacionCamposDoctor {
      * del doctor
      */
     public static String validarCampos(JTextField txtNombre, JTextField txtApellido, JTextField txtEspecialidad) {
-        String mensaje = "";
         if (txtNombre.getText().trim().isEmpty()) {
-            mensaje = "Nombre.";
             txtNombre.requestFocus();
+            return "Nombre.";
         }
 
         if (txtApellido.getText().trim().isEmpty()) {
-            mensaje = "Apellido.";
             txtApellido.requestFocus();
+            return "Apellido.";
         }
 
         if (txtEspecialidad.getText().trim().isEmpty()) {
-            mensaje = "Especialidad.";
             txtEspecialidad.requestFocus();
+            return "Especialidad.";
         }
-        return mensaje;
+        return "";
     }
 }
