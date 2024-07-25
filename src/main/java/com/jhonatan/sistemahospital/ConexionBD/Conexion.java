@@ -9,7 +9,7 @@ public class Conexion {
 
     private static final String URL = "jdbc:mysql://localhost/sistemahospital";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "1234";
 
     private static Conexion instancia;
 
