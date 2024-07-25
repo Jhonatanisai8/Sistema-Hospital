@@ -3,10 +3,22 @@ package com.jhonatan.sistemahospital.Igu;
 import java.awt.Color;
 
 import javax.swing.JOptionPane;
+import java.sql.*;
 
+import com.jhonatan.sistemahospital.ClaseMain.Clases.Doctor;
 import com.jhonatan.sistemahospital.ClasesEstaticas.ValidacionCamposDoctor;
+import com.jhonatan.sistemahospital.ConexionBD.Conexion;
+import com.jhonatan.sistemahospital.DaoImplementacion.ImpleDoctorDao;
 
 public class registroDoctor extends javax.swing.JPanel {
+
+    /*Instancias de tipo de ImpleDoctorDao y Doctor */
+    ImpleDoctorDao impleDoctorDao = new ImpleDoctorDao();
+    Doctor doctor = new Doctor();
+
+    /* Variable de tipo conexion */
+    Connection conexion = null;
+    Conexion instanciaMYSQL = Conexion.getInstancia();
 
     public registroDoctor() {
         initComponents();
@@ -31,7 +43,8 @@ public class registroDoctor extends javax.swing.JPanel {
         txtNombre.requestFocus();
     }
 
-  
+ 
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
