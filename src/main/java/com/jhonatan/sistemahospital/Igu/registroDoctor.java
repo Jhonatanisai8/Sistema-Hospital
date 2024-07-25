@@ -34,6 +34,7 @@ public class registroDoctor extends javax.swing.JPanel {
         txtNombre.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del doctor.");
         txtApellido.putClientProperty("JTextField.placeholderText", "Ingrese el apellido del doctor.");
         txtEspecialidad.putClientProperty("JTextField.placeholderText", "Ingrese la especialida del doctor.");
+        btnSubir.setText("Guardar");
 
     }
 
@@ -73,7 +74,8 @@ public class registroDoctor extends javax.swing.JPanel {
 
             } catch (HeadlessException | NumberFormatException | SQLException e) {
                 System.out
-                        .println("Error en el boton guardar al momento de insertar doctor: " + e.getMessage().toString());
+                        .println("Error en el boton guardar al momento de insertar doctor: "
+                                + e.getMessage().toString());
                 try {
                     conexion.rollback();
                 } catch (SQLException ex) {
