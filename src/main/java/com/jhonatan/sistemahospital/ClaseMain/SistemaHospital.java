@@ -7,6 +7,5 @@ public class SistemaHospital {
     public static void main(String[] args) {
         Dashboard d = new Dashboard();
         d.setVisible(true);
-        
     }
 }
