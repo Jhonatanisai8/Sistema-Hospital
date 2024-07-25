@@ -16,6 +16,7 @@ public class ImpleDoctorDao implements DaoDoctor {
     private static final String SQL_SELECT = "select * from doctor";
     private static final String SQL_INSERT = "insert into doctor (nombre,apellido,especialidad) values (?,?,?)";
     private static final String SQL_UPDATE = "update doctor set nombre = ?, apellido = ?, especialidad = ? where iddoctor = ?";
+    private static final String SQL_DELETE = "delete from doctor where iddoctor = ?";
 
     public ImpleDoctorDao() {
 
@@ -122,7 +123,26 @@ public class ImpleDoctorDao implements DaoDoctor {
 
     @Override
     public int eliminarDoctor(Doctor doctor) {
-        throw new UnsupportedOperationException("Unimplemented method 'eliminarDoctor'");
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        int registros = 0;
+        try {
+            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
+
+            consultaPreparada = conexion.prepareStatement(SQL_DELETE);
+            consultaPreparada.setInt(1, doctor.getIdDoctor());
+
+            registros = consultaPreparada.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error al eliminar un doctor: " + e.toString());
+        } finally {
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            /* cerramos la conexion */
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+        return registros;
     }
 
 }
