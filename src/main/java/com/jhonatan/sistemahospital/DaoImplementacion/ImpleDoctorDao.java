@@ -15,6 +15,7 @@ public class ImpleDoctorDao implements DaoDoctor {
     /* consultas */
     private static final String SQL_SELECT = "select * from doctor";
     private static final String SQL_INSERT = "insert into doctor (nombre,apellido,especialidad) values (?,?,?)";
+    private static final String SQL_UPDATE = "update doctor set nombre = ?, apellido = ?, especialidad = ? where iddoctor = ?";
 
     public ImpleDoctorDao() {
 
@@ -92,7 +93,31 @@ public class ImpleDoctorDao implements DaoDoctor {
 
     @Override
     public int modificarDoctor(Doctor doctor) {
-        throw new UnsupportedOperationException("Unimplemented method 'modificarDoctor'");
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        int registros = 0;
+
+        try {
+            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
+            consultaPreparada = conexion.prepareStatement(SQL_UPDATE);
+
+            /* le asiganamos parametros a la consulta */
+            consultaPreparada.setString(1, doctor.getNombre());
+            consultaPreparada.setString(2, doctor.getApellido());
+            consultaPreparada.setString(3, doctor.getEspecialidad());
+            consultaPreparada.setInt(4, doctor.getIdDoctor());
+
+            registros = consultaPreparada.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error al momento de modificar un doctor: " + e.toString());
+        } finally {
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            /* cerramos la conexion */
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+        return registros;
     }
 
     @Override
