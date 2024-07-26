@@ -14,6 +14,7 @@ com\jhonatan\sistemahospital\Igu\provincia$5.class
 com\jhonatan\sistemahospital\Igu\Dashboard$7.class
 com\jhonatan\sistemahospital\Igu\Pacientes$2.class
 com\jhonatan\sistemahospital\Igu\registroDoctor.class
+com\jhonatan\sistemahospital\Igu\Doctores$7.class
 com\jhonatan\sistemahospital\Igu\admisiones.class
 com\jhonatan\sistemahospital\Igu\RegistroPacientes$1.class
 com\jhonatan\sistemahospital\Igu\Pacientes$3.class
@@ -37,6 +38,7 @@ com\jhonatan\sistemahospital\Igu\frm$1.class
 com\jhonatan\sistemahospital\Igu\Pacientes$4.class
 com\jhonatan\sistemahospital\Igu\registroProvincias$1.class
 com\jhonatan\sistemahospital\Igu\registroDoctor$1.class
+com\jhonatan\sistemahospital\Igu\Doctores$9.class
 com\jhonatan\sistemahospital\Igu\Doctores$5.class
 com\jhonatan\sistemahospital\Igu\Dashboard$2.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$3.class
@@ -46,6 +48,7 @@ com\jhonatan\sistemahospital\Igu\Pacientes.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$10.class
 com\jhonatan\sistemahospital\Igu\provincia.class
 com\jhonatan\sistemahospital\Igu\Doctores$1.class
+com\jhonatan\sistemahospital\Igu\Doctores$8.class
 com\jhonatan\sistemahospital\Igu\provincia$3.class
 com\jhonatan\sistemahospital\Igu\Pacientes$5.class
 com\jhonatan\sistemahospital\Igu\Dashboard$6.class

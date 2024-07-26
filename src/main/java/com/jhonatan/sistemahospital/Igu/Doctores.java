@@ -2,8 +2,12 @@ package com.jhonatan.sistemahospital.Igu;
 
 import com.jhonatan.sistemahospital.DaoImplementacion.ImpleDoctorDao;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Doctores extends javax.swing.JPanel {
 
@@ -11,24 +15,57 @@ public class Doctores extends javax.swing.JPanel {
     ImpleDoctorDao impleDoctorDao = new ImpleDoctorDao();
     final String[] itulos = {"ID DOCTOR", "NOMBRE", "APELLIDO", "ESPECIALIDAD"};
     DefaultTableModel modelo = new DefaultTableModel(itulos, 0);
-    
+
+    /*variables para busccar*/
+    private TableRowSorter tbRowSorter;
+    String filtroNombre;
+
     public Doctores() {
         initComponents();
         InitStyles();
         tblDoctores.setModel(modelo);
         this.mostrarListaDoctores();
     }
-    
+
+    private void filtroNombre() {
+        if (txtBuscar == null) {
+
+        } else {
+            try {
+                filtroNombre = txtBuscar.getText();
+                tbRowSorter.setRowFilter(RowFilter.regexFilter(filtroNombre, 1));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al buscar: " + e.toString(), "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+
+    private void buscar() {
+        txtBuscar.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                String cadena = txtBuscar.getText();
+                txtBuscar.setText(cadena);
+                repaint();
+
+                // Verificar si trsFiltro está inicializado antes de llamar a filtro()
+                if (tbRowSorter != null) {
+                    filtroNombre();
+                }
+            }
+        });
+    }
+
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
-        txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
+        txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del doctor a buscar.");
     }
-    
+
     private void mostrarListaDoctores() {
         impleDoctorDao.mostrarLista(modelo, tblDoctores);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -48,6 +85,17 @@ public class Doctores extends javax.swing.JPanel {
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
         title.setText("Doctores");
+
+        txtBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtBuscarMouseClicked(evt);
+            }
+        });
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
+            }
+        });
 
         btnBuscar.setBackground(new java.awt.Color(0, 153, 255));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -207,6 +255,15 @@ public class Doctores extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Por favor ingrese el  nombre " + "\n del doctor a buscar", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarMouseClicked
+        this.buscar();
+    }//GEN-LAST:event_txtBuscarMouseClicked
+
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        tbRowSorter = new TableRowSorter(tblDoctores.getModel());
+        tblDoctores.setRowSorter(tbRowSorter);
+    }//GEN-LAST:event_txtBuscarKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
