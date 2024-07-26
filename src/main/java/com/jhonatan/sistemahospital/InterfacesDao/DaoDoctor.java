@@ -16,5 +16,4 @@ public interface DaoDoctor {
 
     public int eliminarDoctor(Doctor doctor);
 
-    public void listarEnTabla(DefaultTableModel modelo, JTable tblDoctores);
 }
