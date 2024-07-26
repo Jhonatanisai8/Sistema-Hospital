@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -24,7 +25,17 @@ public class Doctores extends javax.swing.JPanel {
         initComponents();
         InitStyles();
         tblDoctores.setModel(modelo);
+        /*this.mostrarListaDoctores(modelo, tblDoctores);*/
         this.mostrarListaDoctores();
+    }
+
+    private void mostrarListaDoctores(DefaultTableModel model, JTable tblDoctores) {
+        try {
+            modelo = (DefaultTableModel) tblDoctores.getModel();
+            impleDoctorDao.listarDoctores().forEach((u) -> model.addRow(new Object[]{u.getIdDoctor(), u.getNombre(), u.getApellido(), u.getEspecialidad()}));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al listar en tabla", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     private void filtroNombre() {
