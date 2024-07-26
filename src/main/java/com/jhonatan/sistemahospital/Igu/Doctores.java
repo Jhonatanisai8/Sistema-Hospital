@@ -1,5 +1,6 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.ClaseMain.Clases.Doctor;
 import com.jhonatan.sistemahospital.DaoImplementacion.ImpleDoctorDao;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
@@ -20,7 +21,7 @@ public class Doctores extends javax.swing.JPanel {
     /*variables para busccar*/
     private TableRowSorter tbRowSorter;
     String filtroNombre;
-
+    
     public Doctores() {
         initComponents();
         InitStyles();
@@ -28,7 +29,7 @@ public class Doctores extends javax.swing.JPanel {
         /*this.mostrarListaDoctores(modelo, tblDoctores);*/
         this.mostrarListaDoctores();
     }
-
+    
     private void mostrarListaDoctores(DefaultTableModel model, JTable tblDoctores) {
         try {
             modelo = (DefaultTableModel) tblDoctores.getModel();
@@ -37,10 +38,10 @@ public class Doctores extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Error al listar en tabla", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
         }
     }
-
+    
     private void filtroNombre() {
         if (txtBuscar == null) {
-
+            
         } else {
             try {
                 filtroNombre = txtBuscar.getText();
@@ -50,7 +51,7 @@ public class Doctores extends javax.swing.JPanel {
             }
         }
     }
-
+    
     private void buscar() {
         txtBuscar.addKeyListener(new KeyAdapter() {
             @Override
@@ -66,17 +67,17 @@ public class Doctores extends javax.swing.JPanel {
             }
         });
     }
-
+    
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
         txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del doctor a buscar.");
     }
-
+    
     private void mostrarListaDoctores() {
         impleDoctorDao.mostrarLista(modelo, tblDoctores);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -258,7 +259,7 @@ public class Doctores extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        System.out.println("");
+        this.selecionarDoctorEditar();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -288,4 +289,22 @@ public class Doctores extends javax.swing.JPanel {
     private javax.swing.JLabel title;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+
+    private void selecionarDoctorEditar() {
+        int fila = tblDoctores.getSelectedRow();
+        
+        if (fila > -1) {
+            try {
+                int idDoctor = (int) tblDoctores.getValueAt(fila, 0);
+                Doctor doctor = impleDoctorDao.obtenerInformacion(idDoctor);
+
+                /*llamamos al formulario*/
+                Dashboard.ShowJPanel(new registroDoctor(doctor));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al selecionar fila.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor selecione una fila" + "\n para poder editar la informacion del doctor.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+        }
+    }
 }
