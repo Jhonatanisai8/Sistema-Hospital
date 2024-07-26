@@ -26,6 +26,11 @@ public class registroDoctor extends javax.swing.JPanel {
         InitStyles();
     }
 
+    public registroDoctor(Doctor doctor) {
+        initComponents();
+        InitStyles();
+    }
+
     private void InitStyles() {
         folioLbl.putClientProperty("FlatLaf.styleClass", "large");
         folioLbl.setForeground(Color.black);
