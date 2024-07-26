@@ -1,20 +1,33 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.DaoImplementacion.ImpleDoctorDao;
 import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 
 public class Doctores extends javax.swing.JPanel {
-    
+
+    /*instancia de la clase clase ImpleDoctorDao*/
+    ImpleDoctorDao impleDoctorDao = new ImpleDoctorDao();
+    final String[] itulos = {"ID DOCTOR", "NOMBRE", "APELLIDO", "ESPECIALIDAD"};
+    DefaultTableModel modelo = new DefaultTableModel(itulos, 0);
+
     public Doctores() {
         initComponents();
         InitStyles();
+        tblDoctores.setModel(modelo);
+        this.mostrarListaDoctores();
     }
-    
+
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
         txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
     }
-    
+
+    private void mostrarListaDoctores() {
+        impleDoctorDao.mostrarLista(modelo, tblDoctores);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
