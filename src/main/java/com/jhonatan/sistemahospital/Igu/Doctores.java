@@ -2,6 +2,7 @@ package com.jhonatan.sistemahospital.Igu;
 
 import com.jhonatan.sistemahospital.DaoImplementacion.ImpleDoctorDao;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Doctores extends javax.swing.JPanel {
@@ -10,24 +11,24 @@ public class Doctores extends javax.swing.JPanel {
     ImpleDoctorDao impleDoctorDao = new ImpleDoctorDao();
     final String[] itulos = {"ID DOCTOR", "NOMBRE", "APELLIDO", "ESPECIALIDAD"};
     DefaultTableModel modelo = new DefaultTableModel(itulos, 0);
-
+    
     public Doctores() {
         initComponents();
         InitStyles();
         tblDoctores.setModel(modelo);
         this.mostrarListaDoctores();
     }
-
+    
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
         txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
     }
-
+    
     private void mostrarListaDoctores() {
         impleDoctorDao.mostrarLista(modelo, tblDoctores);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -202,7 +203,9 @@ public class Doctores extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        System.out.println("");
+        if (txtBuscar.getText().trim().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese el  nombre " + "\n del doctor a buscar", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
 
