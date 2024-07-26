@@ -20,6 +20,7 @@ public class ImpleDoctorDao implements DaoDoctor {
     private static final String SQL_INSERT = "insert into doctor (nombre,apellido,especialidad) values (?,?,?)";
     private static final String SQL_UPDATE = "update doctor set nombre = ?, apellido = ?, especialidad = ? where iddoctor = ?";
     private static final String SQL_DELETE = "delete from doctor where iddoctor = ?";
+    private static final String SQL_SELECT_DOCTOR = "SELECT * FROM doctor WHERE iddoctor = ? LIMIT 1";
     
     public ImpleDoctorDao() {
         
@@ -146,6 +147,39 @@ public class ImpleDoctorDao implements DaoDoctor {
             }
         }
         return registros;
+    }
+    
+    @Override
+    public Doctor obtenerInformacion(int id) {
+        Doctor doctor = null;
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        ResultSet resultado = null;
+        try {
+            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
+            consultaPreparada = conexion.prepareStatement(SQL_SELECT_DOCTOR);
+            
+            consultaPreparada.setInt(1, id);;
+            resultado = consultaPreparada.executeQuery();
+            
+            while (resultado.next()) {
+                /*uso del constructor con todos los parametros*/
+                doctor = new Doctor(
+                        resultado.getInt("iddoctor"),
+                        resultado.getString("nombre"),
+                        resultado.getString("apellido"),
+                        resultado.getString("especialidad"));
+            }
+        } catch (Exception e) {
+            System.out.println("Error al obtener la informacion del doctor");
+        } finally {
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            instanciaMYSQL.cerrarResultSet(resultado);
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+        return doctor;
     }
     
     private void listarEnTabla(DefaultTableModel modelo, JTable tblDoctores) {
