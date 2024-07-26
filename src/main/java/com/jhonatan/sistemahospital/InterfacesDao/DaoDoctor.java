@@ -16,4 +16,6 @@ public interface DaoDoctor {
 
     public int eliminarDoctor(Doctor doctor);
 
+    public Doctor obtenerInformacion(int id);
+
 }
