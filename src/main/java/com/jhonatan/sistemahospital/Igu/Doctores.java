@@ -1,10 +1,16 @@
 package com.jhonatan.sistemahospital.Igu;
 
 import com.jhonatan.sistemahospital.ClaseMain.Clases.Doctor;
+import com.jhonatan.sistemahospital.ConexionBD.Conexion;
 import com.jhonatan.sistemahospital.DaoImplementacion.ImpleDoctorDao;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -21,7 +27,11 @@ public class Doctores extends javax.swing.JPanel {
     /*variables para busccar*/
     private TableRowSorter tbRowSorter;
     String filtroNombre;
-    
+
+    /*variables de conexion */
+    Connection conexion = null;
+    Conexion instanciaMYSQL = Conexion.getInstancia();
+
     public Doctores() {
         initComponents();
         InitStyles();
@@ -29,7 +39,7 @@ public class Doctores extends javax.swing.JPanel {
         /*this.mostrarListaDoctores(modelo, tblDoctores);*/
         this.mostrarListaDoctores();
     }
-    
+
     private void mostrarListaDoctores(DefaultTableModel model, JTable tblDoctores) {
         try {
             modelo = (DefaultTableModel) tblDoctores.getModel();
@@ -38,10 +48,10 @@ public class Doctores extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Error al listar en tabla", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
+
     private void filtroNombre() {
         if (txtBuscar == null) {
-            
+
         } else {
             try {
                 filtroNombre = txtBuscar.getText();
@@ -51,7 +61,7 @@ public class Doctores extends javax.swing.JPanel {
             }
         }
     }
-    
+
     private void buscar() {
         txtBuscar.addKeyListener(new KeyAdapter() {
             @Override
@@ -67,17 +77,69 @@ public class Doctores extends javax.swing.JPanel {
             }
         });
     }
-    
+
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
         txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del doctor a buscar.");
     }
-    
+
     private void mostrarListaDoctores() {
         impleDoctorDao.mostrarLista(modelo, tblDoctores);
     }
-    
+
+    private void eliminarDoctor() {
+        int idDoctor, filaSeleccionadas[];
+
+        /*Obtenemos el número de filas seleccionadas*/
+        filaSeleccionadas = tblDoctores.getSelectedRows();
+
+        if (filaSeleccionadas.length == 0) {
+            JOptionPane.showMessageDialog(null, "Por favor seleccionar una o mas filas para "
+                    + "\npoder eliminae!.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String cantIds = "";
+        for (int i = 0; i < filaSeleccionadas.length; i++) {
+            int idsDoctores = (int) tblDoctores.getValueAt(filaSeleccionadas[i], 0);
+            if (!cantIds.isBlank()) {
+                cantIds += ", ";
+            }
+            cantIds += idsDoctores;
+        }
+
+        try {
+            conexion = instanciaMYSQL.conectarConBaseDatos();
+            if (conexion.getAutoCommit()) {
+                conexion.setAutoCommit(false);
+            }
+            int opcion = JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar los registros con ID:" + cantIds + " ?", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            /*si la opcion es si */
+            if (opcion == 0) {
+                for (int i = filaSeleccionadas.length - 1; i >= 0; i--) {
+                    idDoctor = (int) tblDoctores.getValueAt(filaSeleccionadas[i], 0);
+                    Doctor doctorEliminado = new Doctor(idDoctor);
+
+                    /*llamamos al metodo de la clase impledotr*/
+                    impleDoctorDao.eliminarDoctor(doctorEliminado);
+                    modelo.removeRow(filaSeleccionadas[i]);
+
+                    /*hace un commit osea una confirmacion*/
+                    conexion.commit();
+                }
+                JOptionPane.showMessageDialog(null, "Registros Eliminados", "ATENCION", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (HeadlessException | SQLException e) {
+            System.out.println("Error el boton eliminar: " + e.toString());
+            try {
+                conexion.rollback();
+            } catch (SQLException ex) {
+                System.out.println("conexion.rollback(): " + ex.toString());
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -225,7 +287,7 @@ public class Doctores extends javax.swing.JPanel {
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBorrar)
@@ -255,7 +317,7 @@ public class Doctores extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        System.out.println("");
+        this.eliminarDoctor();
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -292,7 +354,7 @@ public class Doctores extends javax.swing.JPanel {
 
     private void selecionarDoctorEditar() {
         int fila = tblDoctores.getSelectedRow();
-        
+
         if (fila > -1) {
             try {
                 int idDoctor = (int) tblDoctores.getValueAt(fila, 0);
