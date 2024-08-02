@@ -1,12 +1,21 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.DaoImplementacion.ImpleProvinciaDao;
 import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 
 public class provincia extends javax.swing.JPanel {
 
+    ImpleProvinciaDao impleProvinciaDao = new ImpleProvinciaDao();
+    
+    final String [] titulos = {"ID","PROVINCIA"};
+    DefaultTableModel modelo = new DefaultTableModel(titulos, 0);
+    
+    
     public provincia() {
         initComponents();
         InitStyles();
+        tblProvincias.setModel(modelo);
     }
 
     private void InitStyles() {
