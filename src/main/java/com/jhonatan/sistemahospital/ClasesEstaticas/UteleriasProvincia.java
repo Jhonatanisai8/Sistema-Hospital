@@ -10,7 +10,7 @@ public class UteleriasProvincia {
         /*creamos una lista con las letras del alfabeto*/
 
         List<Character> alfabeto = new ArrayList<>();
-        for (char c = 'a'; c <= 'z'; c++) {
+        for (char c = 'B'; c <= 'Z'; c++) {
             alfabeto.add(c);
         }
 
