@@ -1,21 +1,32 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.ClaseMain.Clases.Provincia;
+import com.jhonatan.sistemahospital.ConexionBD.Conexion;
 import com.jhonatan.sistemahospital.DaoImplementacion.ImpleProvinciaDao;
 import java.awt.Color;
+import java.sql.Connection;
 import javax.swing.table.DefaultTableModel;
 
 public class provincia extends javax.swing.JPanel {
 
     ImpleProvinciaDao impleProvinciaDao = new ImpleProvinciaDao();
-    
-    final String [] titulos = {"ID","PROVINCIA"};
+
+    final String[] titulos = {"ID", "PROVINCIA"};
     DefaultTableModel modelo = new DefaultTableModel(titulos, 0);
-    
-    
+
+    ImpleProvinciaDao impleProvinciaDao1 = new ImpleProvinciaDao();
+    Provincia provincia = new Provincia();
+
+    /*variable de tipo conexion*/
+    Connection conexion = null;
+    Conexion instanciaMYSQL = Conexion.getInstancia();
+
     public provincia() {
         initComponents();
         InitStyles();
         tblProvincias.setModel(modelo);
+        impleProvinciaDao.listarEnTabla(modelo);
+
     }
 
     private void InitStyles() {
