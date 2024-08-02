@@ -9,8 +9,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -40,6 +38,7 @@ public class Doctores extends javax.swing.JPanel {
         this.mostrarListaDoctores();
     }
 
+    /*
     private void mostrarListaDoctores(DefaultTableModel model, JTable tblDoctores) {
         try {
             modelo = (DefaultTableModel) tblDoctores.getModel();
@@ -48,10 +47,9 @@ public class Doctores extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Error al listar en tabla", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
         }
     }
-
+     */
     private void filtroNombre() {
         if (txtBuscar == null) {
-
         } else {
             try {
                 filtroNombre = txtBuscar.getText();
@@ -123,11 +121,13 @@ public class Doctores extends javax.swing.JPanel {
 
                     /*llamamos al metodo de la clase impledotr*/
                     impleDoctorDao.eliminarDoctor(doctorEliminado);
-                    modelo.removeRow(filaSeleccionadas[i]);
+                    //modelo.removeRow(filaSeleccionadas[i]);
 
                     /*hace un commit osea una confirmacion*/
                     conexion.commit();
                 }
+                /*si el usuario decide buscar el nombre y elimar el doctor*/
+                this.mostrarListaDoctores();
                 JOptionPane.showMessageDialog(null, "Registros Eliminados", "ATENCION", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (HeadlessException | SQLException e) {

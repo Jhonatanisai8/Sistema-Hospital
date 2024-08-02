@@ -11,7 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class ImpleDoctorDao implements DaoDoctor {
-    
+
     private Connection conexionMYSQL;
     Conexion instanciaMYSQL = Conexion.getInstancia();
 
@@ -21,24 +21,24 @@ public class ImpleDoctorDao implements DaoDoctor {
     private static final String SQL_UPDATE = "update doctor set nombre = ?, apellido = ?, especialidad = ? where iddoctor = ?";
     private static final String SQL_DELETE = "delete from doctor where iddoctor = ?";
     private static final String SQL_SELECT_DOCTOR = "SELECT * FROM doctor WHERE iddoctor = ? LIMIT 1";
-    
+
     public ImpleDoctorDao() {
-        
+
     }
-    
+
     public ImpleDoctorDao(Connection connection) {
         this.conexionMYSQL = connection;
     }
-    
+
     @Override
     public List<Doctor> listarDoctores() {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
-        
+
         List<Doctor> listaDoctores = new ArrayList<Doctor>();
         Doctor doctor;
-        
+
         try {
             /* */
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
@@ -51,7 +51,7 @@ public class ImpleDoctorDao implements DaoDoctor {
                 nombre = resultado.getString("nombre");
                 apellido = resultado.getString("apellido");
                 especialidad = resultado.getString("especialidad");
-                
+
                 doctor = new Doctor(idDoctor, nombre, apellido, especialidad);
                 /* agregamos al arraylist */
                 listaDoctores.add(doctor);
@@ -67,7 +67,7 @@ public class ImpleDoctorDao implements DaoDoctor {
         }
         return listaDoctores;
     }
-    
+
     @Override
     public int insertarDoctor(Doctor doctor) {
         Connection conexion = null;
@@ -75,15 +75,15 @@ public class ImpleDoctorDao implements DaoDoctor {
         int registros = 0;
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
-            
+
             consultaPreparada = conexion.prepareStatement(SQL_INSERT);
             /* se establecemos los valores a la consulta */
             consultaPreparada.setString(1, doctor.getNombre());
             consultaPreparada.setString(2, doctor.getApellido());
             consultaPreparada.setString(3, doctor.getEspecialidad());
-            
+
             registros = consultaPreparada.executeUpdate();
-            
+
         } catch (Exception e) {
             System.out.println("Error al insertar un doctor: " + e.toString());
         } finally {
@@ -95,13 +95,13 @@ public class ImpleDoctorDao implements DaoDoctor {
         /* retornamos */
         return registros;
     }
-    
+
     @Override
     public int modificarDoctor(Doctor doctor) {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         int registros = 0;
-        
+
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SQL_UPDATE);
@@ -111,7 +111,7 @@ public class ImpleDoctorDao implements DaoDoctor {
             consultaPreparada.setString(2, doctor.getApellido());
             consultaPreparada.setString(3, doctor.getEspecialidad());
             consultaPreparada.setInt(4, doctor.getIdDoctor());
-            
+
             registros = consultaPreparada.executeUpdate();
         } catch (Exception e) {
             System.out.println("Error al momento de modificar un doctor: " + e.toString());
@@ -124,7 +124,7 @@ public class ImpleDoctorDao implements DaoDoctor {
         }
         return registros;
     }
-    
+
     @Override
     public int eliminarDoctor(Doctor doctor) {
         Connection conexion = null;
@@ -132,10 +132,10 @@ public class ImpleDoctorDao implements DaoDoctor {
         int registros = 0;
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
-            
+
             consultaPreparada = conexion.prepareStatement(SQL_DELETE);
             consultaPreparada.setInt(1, doctor.getIdDoctor());
-            
+
             registros = consultaPreparada.executeUpdate();
         } catch (Exception e) {
             System.out.println("Error al eliminar un doctor: " + e.toString());
@@ -148,7 +148,7 @@ public class ImpleDoctorDao implements DaoDoctor {
         }
         return registros;
     }
-    
+
     @Override
     public Doctor obtenerInformacion(int id) {
         Doctor doctor = null;
@@ -158,10 +158,10 @@ public class ImpleDoctorDao implements DaoDoctor {
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SQL_SELECT_DOCTOR);
-            
+
             consultaPreparada.setInt(1, id);;
             resultado = consultaPreparada.executeQuery();
-            
+
             while (resultado.next()) {
                 /*uso del constructor con todos los parametros*/
                 doctor = new Doctor(
@@ -181,7 +181,7 @@ public class ImpleDoctorDao implements DaoDoctor {
         }
         return doctor;
     }
-    
+
     private void listarEnTabla(DefaultTableModel modelo, JTable tblDoctores) {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
@@ -191,13 +191,13 @@ public class ImpleDoctorDao implements DaoDoctor {
             conexion = instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SELECT);
             resultado = consultaPreparada.executeQuery();
-            
+
             int cantidadColumnas = resultado.getMetaData().getColumnCount();
-            
+
             Object[] filas = new Object[cantidadColumnas];
-            
+
             int numeracion = 1;
-            
+
             while (resultado.next()) {
                 filas[0] = numeracion++;
                 for (int i = 0; i < cantidadColumnas; i++) {
@@ -205,8 +205,8 @@ public class ImpleDoctorDao implements DaoDoctor {
                 }
                 modelo.addRow(filas);
             }
-            
-            tblDoctores.updateUI();
+
+            tblDoctores.setModel(modelo);
         } catch (SQLException e) {
             System.out.println("Error al listar en tabla los doctores: ");
         } finally {
@@ -219,15 +219,16 @@ public class ImpleDoctorDao implements DaoDoctor {
             }
         }
     }
-    
+
     private void vaciarTabla(DefaultTableModel modelo) {
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
     }
-    
+
     public void mostrarLista(DefaultTableModel modelo, JTable tblDoctores) {
+        this.vaciarTabla(modelo);
         this.listarEnTabla(modelo, tblDoctores);
     }
-    
+
 }
