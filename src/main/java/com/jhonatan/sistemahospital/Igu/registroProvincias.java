@@ -1,13 +1,31 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.ClaseMain.Clases.Provincia;
+import com.jhonatan.sistemahospital.ClasesEstaticas.UteleriasProvincia;
+import com.jhonatan.sistemahospital.ConexionBD.Conexion;
+import com.jhonatan.sistemahospital.DaoImplementacion.ImpleProvinciaDao;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class registroProvincias extends javax.swing.JPanel {
 
+    ImpleProvinciaDao impleProvinciaDao = new ImpleProvinciaDao();
+    Provincia provincia = new Provincia();
+
+    /*conexion*/
+    Connection conexion = null;
+    Conexion instanciaMYSQL = Conexion.getInstancia();
+
     public registroProvincias() {
         initComponents();
         InitStyles();
+        char idProvincia = UteleriasProvincia.generarIdProvincia();
+        txtID.setText(idProvincia + "");
     }
 
     private void InitStyles() {
@@ -130,8 +148,43 @@ public class registroProvincias extends javax.swing.JPanel {
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
-    private void registrarProvincia() {
+    private void limpiarCampos() {
+        txtNombre.setText("");
+        txtID.setText(UteleriasProvincia.generarIdProvincia() + "");
+    }
 
+    private void registrarProvincia() {
+        String mensaje = this.validadCampos8(txtNombre);
+        char idProvincia;
+        String nombre;
+        if (mensaje.equals("")) {
+            try {
+                conexion = instanciaMYSQL.conectarConBaseDatos();
+
+                if (conexion.getAutoCommit()) {
+                    conexion.setAutoCommit(false);
+                }
+
+                nombre = txtNombre.getText();
+
+                provincia = new Provincia(txtID.getText().charAt(0), nombre);
+                impleProvinciaDao.insertarProvincia(provincia);
+
+                conexion.commit();
+
+                JOptionPane.showMessageDialog(null, "Provincia con ID: " + txtID.getText().charAt(0) + " registrada.", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
+                this.limpiarCampos();
+            } catch (Exception e) {
+                System.out.println("Error al insertar ooton:  " + e.getMessage());
+                try {
+                    conexion.rollback();
+                } catch (SQLException ex) {
+                    System.out.println("Error al insertar boton: " + ex.getMessage());
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por Favor verificar el campo " + mensaje, "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private String validadCampos8(JTextField txtNombre2) {
