@@ -3,13 +3,16 @@ C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhon
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\Igu\Principal.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\Igu\registroProvincias.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\ClaseMain\Clases\Paciente.java
+C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\InterfacesDao\DaoProvincia.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\ClaseMain\SistemaHospital.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\Igu\RegistroAdmisiones.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\ClaseMain\Clases\Provincia.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\ConexionBD\Conexion.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\Igu\Pacientes.java
+C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\DaoImplementacion\ImpleProvinciaDao.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\Igu\RegistroPacientes.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\InterfacesDao\DaoDoctor.java
+C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\ClasesEstaticas\UteleriasProvincia.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\ClaseMain\Clases\Doctor.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\Igu\Doctores.java
 C:\Users\User\Documents\JAVA_Y_MSQL_CURSO\SistemaHospital\src\main\java\com\jhonatan\sistemahospital\Igu\frm.java
