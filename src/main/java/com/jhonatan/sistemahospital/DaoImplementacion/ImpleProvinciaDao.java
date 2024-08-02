@@ -6,9 +6,12 @@ import com.jhonatan.sistemahospital.InterfacesDao.DaoProvincia;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class ImpleProvinciaDao implements DaoProvincia {
 
@@ -101,4 +104,38 @@ public class ImpleProvinciaDao implements DaoProvincia {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public void listarEnTabla(DefaultTableModel model) {
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        ResultSet resultado = null;
+        ResultSetMetaData datos = null;
+
+        String SELECT = "SELECT idprovincia,nombre FROM provincia";
+        try {
+            conexion = instanciaMYSQL.conectarConBaseDatos();
+            consultaPreparada = conexion.prepareStatement(SELECT);
+            resultado = consultaPreparada.executeQuery();
+
+            int cantidadColumnas = datos.getColumnCount();
+
+            while (resultado.next()) {
+                Object arreglo[] = new Object[cantidadColumnas];
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    arreglo[i] = resultado.getObject(i + 1);
+                }
+                model.addRow(arreglo);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al listar las provincias en el tabla: " + e.getMessage());
+        } finally {
+            /*cerramos*/
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            instanciaMYSQL.cerrarResultSet(resultado);
+            /*cerramos la conexion*/
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+    }
 }
