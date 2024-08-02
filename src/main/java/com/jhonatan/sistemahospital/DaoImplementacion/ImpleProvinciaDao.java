@@ -115,6 +115,7 @@ public class ImpleProvinciaDao implements DaoProvincia {
             conexion = instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SELECT);
             resultado = consultaPreparada.executeQuery();
+            datos = resultado.getMetaData();
 
             int cantidadColumnas = datos.getColumnCount();
 
