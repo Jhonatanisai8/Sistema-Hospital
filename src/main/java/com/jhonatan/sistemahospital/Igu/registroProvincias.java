@@ -1,6 +1,7 @@
 package com.jhonatan.sistemahospital.Igu;
 
 import java.awt.Color;
+import javax.swing.JTextField;
 
 public class registroProvincias extends javax.swing.JPanel {
 
@@ -115,7 +116,7 @@ public class registroProvincias extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSubirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirActionPerformed
-        System.out.println("");
+        this.registrarProvincia();
     }//GEN-LAST:event_btnSubirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -128,4 +129,16 @@ public class registroProvincias extends javax.swing.JPanel {
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
+    private void registrarProvincia() {
+
+    }
+
+    private String validadCampos8(JTextField txtNombre2) {
+        if (txtNombre2.getText().trim().isEmpty()) {
+            txtNombre2.requestFocus();
+            return "Nombre";
+        }
+        return "";
+    }
 }
