@@ -14,7 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class ImpleProvinciaDao implements DaoProvincia {
-    
+
     private Connection conexionMYSQL;
     Conexion instanciaMYSQL = Conexion.getInstancia();
 
@@ -22,34 +22,34 @@ public class ImpleProvinciaDao implements DaoProvincia {
     private static final String SQL_SELECT = "SELECT * FROM provincia";
     private static final String SQL_INSERT = "INSERT INTO provincia (idprovincia,nombre) VALUES (?,?)";
     private static final String SQL_UPDATE = "";
-    private static final String SQL_DELETE = "";
-    
+    private static final String SQL_DELETE = "DELETE FROM provincia WHERE idprovincia = ?";
+
     @Override
     public List<Provincia> listarProvincias() {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
-        
+
         List<Provincia> listaProvincias = new ArrayList<>();
-        
+
         Provincia provincia;
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SQL_SELECT);
             resultado = consultaPreparada.executeQuery();
-            
+
             char idProvincia;
             String nombre;
-            
+
             while (resultado.next()) {
                 idProvincia = resultado.getString("idprovincia").charAt(0);
                 nombre = resultado.getString("nombre");
-                
+
                 provincia = new Provincia(idProvincia, nombre);
-                
+
                 listaProvincias.add(provincia);
             }
-            
+
         } catch (SQLException e) {
             System.out.println("Error al listar provincias: " + e.getMessage());
         } finally {
@@ -61,22 +61,22 @@ public class ImpleProvinciaDao implements DaoProvincia {
         }
         return listaProvincias;
     }
-    
+
     @Override
     public int insertarProvincia(Provincia provincia) {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         int registros = 0;
-        
+
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SQL_INSERT);
             /*le pasamos los valores a la consulta*/
             consultaPreparada.setString(1, String.valueOf(provincia.getIdProvincia()));
             consultaPreparada.setString(2, provincia.getNombre());
-            
+
             registros = consultaPreparada.executeUpdate();
-            
+
         } catch (SQLException e) {
             System.out.println("Error al insertar Provincia Metodo : " + e.getMessage());
         } finally {
@@ -85,40 +85,60 @@ public class ImpleProvinciaDao implements DaoProvincia {
                 instanciaMYSQL.desconectarBD(conexion);
             }
         }
-        
+
         return registros;
     }
-    
+
     @Override
     public int modificarProvincia(Provincia provincia) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public int eliminarProvincia(Provincia provincia) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        int registros = 0;
+        try {
+            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
+
+            consultaPreparada = conexion.prepareStatement(SQL_DELETE);
+            consultaPreparada.setString(1, String.valueOf(provincia.getIdProvincia()));
+
+            registros = consultaPreparada.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error al eliminar un provincia: " + e.getMessage());
+        } finally {
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            /* cerramos la conexion */
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+        return registros;
+
     }
-    
+
     @Override
     public Provincia obtenerInformacion(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     public void listarEnTabla(DefaultTableModel model) {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
         ResultSetMetaData datos = null;
-        
+
         String SELECT = "SELECT idprovincia,nombre FROM provincia";
         try {
             conexion = instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SELECT);
             resultado = consultaPreparada.executeQuery();
             datos = resultado.getMetaData();
-            
+
             int cantidadColumnas = datos.getColumnCount();
-            
+
             while (resultado.next()) {
                 Object arreglo[] = new Object[cantidadColumnas];
                 for (int i = 0; i < cantidadColumnas; i++) {
@@ -126,7 +146,7 @@ public class ImpleProvinciaDao implements DaoProvincia {
                 }
                 model.addRow(arreglo);
             }
-            
+
         } catch (SQLException e) {
             System.out.println("Error al listar las provincias en el tabla: " + e.getMessage());
         } finally {
