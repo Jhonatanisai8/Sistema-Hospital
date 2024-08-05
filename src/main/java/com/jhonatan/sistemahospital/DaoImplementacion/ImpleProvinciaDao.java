@@ -3,15 +3,10 @@ package com.jhonatan.sistemahospital.DaoImplementacion;
 import com.jhonatan.sistemahospital.ClaseMain.Clases.Provincia;
 import com.jhonatan.sistemahospital.ConexionBD.Conexion;
 import com.jhonatan.sistemahospital.InterfacesDao.DaoProvincia;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 
 public class ImpleProvinciaDao implements DaoProvincia {
 
@@ -22,7 +17,7 @@ public class ImpleProvinciaDao implements DaoProvincia {
     private static final String SQL_SELECT = "SELECT * FROM provincia";
     private static final String SQL_INSERT = "INSERT INTO provincia (idprovincia,nombre) VALUES (?,?)";
     private static final String SQL_UPDATE = "";
-    private static final String SQL_DELETE = "DELETE FROM provincia WHERE idprovincia = ?";
+   // private static final String SQL_DELETE = "DELETE FROM provincia WHERE idprovincia = ?";
 
     @Override
     public List<Provincia> listarProvincias() {
@@ -101,13 +96,13 @@ public class ImpleProvinciaDao implements DaoProvincia {
         int registros = 0;
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
-
+            String SQL_DELETE = "DELETE FROM provincia WHERE idprovincia = ?";
             consultaPreparada = conexion.prepareStatement(SQL_DELETE);
             consultaPreparada.setString(1, String.valueOf(provincia.getIdProvincia()));
 
             registros = consultaPreparada.executeUpdate();
         } catch (Exception e) {
-            System.out.println("Error al eliminar un provincia: " + e.getMessage());
+            System.out.println("Error al eliminar una provincia: " + e.getMessage());
         } finally {
             instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
             /* cerramos la conexion */
@@ -116,7 +111,6 @@ public class ImpleProvinciaDao implements DaoProvincia {
             }
         }
         return registros;
-
     }
 
     @Override
