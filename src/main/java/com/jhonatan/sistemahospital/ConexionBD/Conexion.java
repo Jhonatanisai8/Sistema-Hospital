@@ -3,6 +3,7 @@ package com.jhonatan.sistemahospital.ConexionBD;
 import java.sql.*;
 
 public class Conexion {
+
     private Conexion() {
 
     }
