@@ -67,7 +67,7 @@ public class registroProvincias extends javax.swing.JPanel {
         btnSubir.setBackground(new java.awt.Color(18, 90, 173));
         btnSubir.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSubir.setForeground(new java.awt.Color(255, 255, 255));
-        btnSubir.setText("Prestar");
+        btnSubir.setText("Subir");
         btnSubir.setBorderPainted(false);
         btnSubir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnSubir.addActionListener(new java.awt.event.ActionListener() {
