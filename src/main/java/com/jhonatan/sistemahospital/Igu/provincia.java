@@ -4,7 +4,9 @@ import com.jhonatan.sistemahospital.ClaseMain.Clases.Provincia;
 import com.jhonatan.sistemahospital.ConexionBD.Conexion;
 import com.jhonatan.sistemahospital.DaoImplementacion.ImpleProvinciaDao;
 import java.awt.Color;
-import java.sql.Connection;
+import java.awt.HeadlessException;
+import java.sql.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class provincia extends javax.swing.JPanel {
@@ -14,7 +16,6 @@ public class provincia extends javax.swing.JPanel {
     final String[] titulos = {"ID", "PROVINCIA"};
     DefaultTableModel modelo = new DefaultTableModel(titulos, 0);
 
-    ImpleProvinciaDao impleProvinciaDao1 = new ImpleProvinciaDao();
     Provincia provincia = new Provincia();
 
     /*variable de tipo conexion*/
@@ -201,7 +202,7 @@ public class provincia extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        System.out.println("");
+        this.eliminarProvincia();
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -224,4 +225,54 @@ public class provincia extends javax.swing.JPanel {
     private javax.swing.JLabel title;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+
+    private void eliminarProvincia() {
+        int[] filasSeleccionadas = tblProvincias.getSelectedRows();
+
+        if (filasSeleccionadas.length == 0) {
+            JOptionPane.showMessageDialog(null, "Por favor selecciona una o más filas para eliminar.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        StringBuilder cantIds = new StringBuilder();
+        for (int i : filasSeleccionadas) {
+            String idProvincia = tblProvincias.getValueAt(i, 0).toString();
+            if (cantIds.length() > 0) {
+                cantIds.append(", ");
+            }
+            cantIds.append(idProvincia);
+        }
+
+        Connection conexion = null;
+        try {
+            conexion = instanciaMYSQL.conectarConBaseDatos();
+            if (conexion.getAutoCommit()) {
+                conexion.setAutoCommit(false);
+            }
+
+            int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar los registros con ID: " + cantIds + "?", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
+                    char id = tblProvincias.getValueAt(filasSeleccionadas[i], 0).toString().charAt(0);
+                    Provincia provinciaEliminada = new Provincia(id);
+
+                    int registrosEliminados = impleProvinciaDao.eliminarProvincia(provinciaEliminada);
+                    if (registrosEliminados > 0) {
+                        modelo.removeRow(filasSeleccionadas[i]);
+                    }
+                }
+                conexion.commit();
+                JOptionPane.showMessageDialog(null, "Registros eliminados", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (HeadlessException | SQLException e) {
+            System.out.println("Error el boton eliminar: " + e.toString());
+            try {
+                conexion.rollback();
+            } catch (SQLException ex) {
+                System.out.println("conexion.rollback(): " + ex.toString());
+            }
+        }
+    }
+
 }
