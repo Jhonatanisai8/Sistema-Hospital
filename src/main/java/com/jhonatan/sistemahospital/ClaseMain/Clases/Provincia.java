@@ -8,8 +8,8 @@ public class Provincia {
     public Provincia() {
     }
 
-    public Provincia(String nombre) {
-        this.nombre = nombre;
+    public Provincia(char idProvincia) {
+        this.idProvincia = idProvincia;
     }
 
     public Provincia(char idProvincia, String nombre) {
@@ -33,5 +33,4 @@ public class Provincia {
         this.nombre = nombre;
     }
 
-    
 }
