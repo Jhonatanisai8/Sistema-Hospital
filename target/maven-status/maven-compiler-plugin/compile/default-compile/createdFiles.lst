@@ -5,6 +5,7 @@ com\jhonatan\sistemahospital\Igu\RegistroAdmisiones.class
 com\jhonatan\sistemahospital\Igu\registroProvincias.class
 com\jhonatan\sistemahospital\Igu\provincia$6.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$8.class
+com\jhonatan\sistemahospital\Igu\RegistroPacientes$3.class
 com\jhonatan\sistemahospital\Igu\Dashboard$7.class
 com\jhonatan\sistemahospital\Igu\admisiones.class
 com\jhonatan\sistemahospital\Igu\Pacientes$3.class
@@ -18,6 +19,7 @@ com\jhonatan\sistemahospital\Igu\Pacientes$6.class
 com\jhonatan\sistemahospital\Igu\Doctores$3.class
 com\jhonatan\sistemahospital\Igu\provincia$4.class
 com\jhonatan\sistemahospital\Igu\Doctores$2.class
+com\jhonatan\sistemahospital\InterfacesDao\DaoPaciente.class
 com\jhonatan\sistemahospital\Igu\frm$1.class
 com\jhonatan\sistemahospital\Igu\Pacientes$4.class
 com\jhonatan\sistemahospital\Igu\registroDoctor$1.class
@@ -58,6 +60,7 @@ com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$3.class
 com\jhonatan\sistemahospital\Igu\Pacientes.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$10.class
 com\jhonatan\sistemahospital\Igu\provincia.class
+com\jhonatan\sistemahospital\DaoImplementacion\ImplePacienteDao.class
 com\jhonatan\sistemahospital\Igu\Dashboard$6.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$4.class
 com\jhonatan\sistemahospital\Igu\Pacientes$1.class

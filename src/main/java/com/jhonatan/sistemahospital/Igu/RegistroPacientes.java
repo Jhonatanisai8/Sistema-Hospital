@@ -1,14 +1,20 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.ClaseMain.Clases.Provincia;
+import com.jhonatan.sistemahospital.DaoImplementacion.ImplePacienteDao;
 import java.awt.Color;
+import java.util.List;
 
 public class RegistroPacientes extends javax.swing.JPanel {
-
+    
+    ImplePacienteDao implePacienteDao = new ImplePacienteDao();
+    
     public RegistroPacientes() {
         initComponents();
         InitStyles();
+        this.llenarCombo();
     }
-
+    
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
@@ -19,7 +25,7 @@ public class RegistroPacientes extends javax.swing.JPanel {
         txtPeso.putClientProperty("JTextField.placeholderText", "Peso del Paciente");
         txtAltura.putClientProperty("JTextField.placeholderText", "Altura del Paciente.");
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -111,7 +117,11 @@ public class RegistroPacientes extends javax.swing.JPanel {
         txtAlergias.setRows(5);
         jScrollPane2.setViewportView(txtAlergias);
 
-        cbxProvincia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=SELECCIONAR=" }));
+        cbxProvincia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxProvinciaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
@@ -255,13 +265,17 @@ public class RegistroPacientes extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCiudadActionPerformed
 
+    private void cbxProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProvinciaActionPerformed
+        this.getIdProvincia();
+    }//GEN-LAST:event_cbxProvinciaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authorLbl;
     private javax.swing.JPanel bg;
     private javax.swing.JButton btnSubir;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel catLbl;
-    private javax.swing.JComboBox<String> cbxProvincia;
+    private javax.swing.JComboBox<Provincia> cbxProvincia;
     private javax.swing.JLabel dateLbl;
     private javax.swing.JLabel dispLbl;
     private javax.swing.JLabel edLbl;
@@ -282,4 +296,18 @@ public class RegistroPacientes extends javax.swing.JPanel {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPeso;
     // End of variables declaration//GEN-END:variables
+
+    private void llenarCombo() {
+        cbxProvincia.removeAllItems();
+        List<Provincia> provincias = implePacienteDao.listarProvincias();
+        for (Provincia provincia : provincias) {
+            cbxProvincia.addItem(provincia);
+        }
+    }
+    
+    private void getIdProvincia() {
+        char idProvincia;
+        idProvincia = cbxProvincia.getItemAt(cbxProvincia.getSelectedIndex()).getIdProvincia();
+        System.out.println(String.valueOf(idProvincia));
+    }
 }
