@@ -6,15 +6,15 @@ import java.awt.Color;
 import java.util.List;
 
 public class RegistroPacientes extends javax.swing.JPanel {
-    
+
     ImplePacienteDao implePacienteDao = new ImplePacienteDao();
-    
+
     public RegistroPacientes() {
         initComponents();
         InitStyles();
         this.llenarCombo();
     }
-    
+
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
@@ -25,7 +25,7 @@ public class RegistroPacientes extends javax.swing.JPanel {
         txtPeso.putClientProperty("JTextField.placeholderText", "Peso del Paciente");
         txtAltura.putClientProperty("JTextField.placeholderText", "Altura del Paciente.");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -304,10 +304,65 @@ public class RegistroPacientes extends javax.swing.JPanel {
             cbxProvincia.addItem(provincia);
         }
     }
-    
+
     private void getIdProvincia() {
         char idProvincia;
         idProvincia = cbxProvincia.getItemAt(cbxProvincia.getSelectedIndex()).getIdProvincia();
         System.out.println(String.valueOf(idProvincia));
+    }
+
+    private String validarDatos() {
+        if (txtAlergias.getText().isBlank()) {
+            txtAlergias.requestFocus();
+            return "Alergias.";
+        }
+
+        if (txtAltura.getText().isBlank()) {
+            txtAltura.requestFocus();
+            return "Altura.";
+        }
+
+        if (txtApellido.getText().isBlank()) {
+            txtApellido.requestFocus();
+            return "Apellido.";
+        }
+
+        if (txtCiudad.getText().isBlank()) {
+            txtCiudad.requestFocus();
+            return "Ciudad.";
+        }
+
+        if (txtFechaNacimiento.getText().isBlank()) {
+            txtFechaNacimiento.requestFocus();
+            return "Fecha de Nacimiento.";
+        }
+
+        if (txtNombre.getText().isBlank()) {
+            txtNombre.requestFocus();
+            return "Nombre.";
+        }
+
+        if (txtPeso.getText().isBlank()) {
+            txtPeso.requestFocus();
+            return "Peso.";
+        }
+
+        if (buttonGroup1.getSelection() == null) {
+            return "Sexo.";
+        }
+        return "";
+    }
+
+    public void limpiarCamposFormulario() {
+        txtAlergias.setText("");
+        txtAltura.setText("");
+        txtApellido.setText("");
+        txtCiudad.setText("");
+        txtFechaNacimiento.setText("");
+        txtNombre.setText("");
+        txtPeso.setText("");
+        txtNombre.requestFocus();
+        cbxProvincia.setSelectedIndex(0);
+        
     }
 }
