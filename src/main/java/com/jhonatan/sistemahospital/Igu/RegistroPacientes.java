@@ -1,13 +1,24 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.ClaseMain.Clases.Paciente;
 import com.jhonatan.sistemahospital.ClaseMain.Clases.Provincia;
+import com.jhonatan.sistemahospital.ConexionBD.Conexion;
 import com.jhonatan.sistemahospital.DaoImplementacion.ImplePacienteDao;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.util.List;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 public class RegistroPacientes extends javax.swing.JPanel {
 
     ImplePacienteDao implePacienteDao = new ImplePacienteDao();
+
+    /*variables parar poder conectarnos*/
+    Connection conexion = null;
+    Conexion instanciaMYSQL = Conexion.getInstancia();
 
     public RegistroPacientes() {
         initComponents();
@@ -50,8 +61,8 @@ public class RegistroPacientes extends javax.swing.JPanel {
         txtAltura = new javax.swing.JTextField();
         dispLbl = new javax.swing.JLabel();
         btnSubir = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rtbMasculino = new javax.swing.JRadioButton();
+        rtbFemenino = new javax.swing.JRadioButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtAlergias = new javax.swing.JTextArea();
         cbxProvincia = new javax.swing.JComboBox<>();
@@ -107,11 +118,11 @@ public class RegistroPacientes extends javax.swing.JPanel {
             }
         });
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("M");
+        buttonGroup1.add(rtbMasculino);
+        rtbMasculino.setText("M");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("F");
+        buttonGroup1.add(rtbFemenino);
+        rtbFemenino.setText("F");
 
         txtAlergias.setColumns(20);
         txtAlergias.setRows(5);
@@ -156,9 +167,9 @@ public class RegistroPacientes extends javax.swing.JPanel {
                                 .addGap(68, 68, 68))
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addGap(108, 108, 108)
-                                .addComponent(jRadioButton1)
+                                .addComponent(rtbMasculino)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton2)
+                                .addComponent(rtbFemenino)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(70, 70, 70)
@@ -231,8 +242,8 @@ public class RegistroPacientes extends javax.swing.JPanel {
                         .addComponent(authorLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(7, 7, 7)
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2))
+                            .addComponent(rtbMasculino)
+                            .addComponent(rtbFemenino))
                         .addGap(3, 3, 3)
                         .addComponent(catLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -258,7 +269,7 @@ public class RegistroPacientes extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSubirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirActionPerformed
-        System.out.println("");
+        this.registrar();
     }//GEN-LAST:event_btnSubirActionPerformed
 
     private void txtCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCiudadActionPerformed
@@ -279,12 +290,12 @@ public class RegistroPacientes extends javax.swing.JPanel {
     private javax.swing.JLabel dateLbl;
     private javax.swing.JLabel dispLbl;
     private javax.swing.JLabel edLbl;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel langLbl;
     private javax.swing.JLabel pagsLbl;
+    private javax.swing.JRadioButton rtbFemenino;
+    private javax.swing.JRadioButton rtbMasculino;
     private javax.swing.JLabel stockLbl;
     private javax.swing.JLabel title;
     private javax.swing.JLabel titleLbl;
@@ -305,10 +316,11 @@ public class RegistroPacientes extends javax.swing.JPanel {
         }
     }
 
-    private void getIdProvincia() {
+    private char getIdProvincia() {
         char idProvincia;
         idProvincia = cbxProvincia.getItemAt(cbxProvincia.getSelectedIndex()).getIdProvincia();
         System.out.println(String.valueOf(idProvincia));
+        return idProvincia;
     }
 
     private String validarDatos() {
@@ -363,6 +375,85 @@ public class RegistroPacientes extends javax.swing.JPanel {
         txtPeso.setText("");
         txtNombre.requestFocus();
         cbxProvincia.setSelectedIndex(0);
-        
+
+    }
+
+    private void registrar() {
+        String mensaje = this.validarDatos();
+
+        if (mensaje.equals("")) {
+            try {
+                conexion = instanciaMYSQL.conectarConBaseDatos();
+
+                if (conexion.getAutoCommit()) {
+                    conexion.setAutoCommit(false);
+                }
+
+                // atributos
+                int idPaciente;
+                String nombre;
+                String apellido;
+                char genero = 0;
+                java.util.Date fechaNacimiento;
+                String ciudad;
+                char idProvincia;
+                String alergias;
+                double peso;
+                double altura;
+
+                nombre = txtNombre.getText();
+                apellido = txtApellido.getText();
+
+                //para el genero de la persona
+                if (rtbMasculino.isSelected()) {
+                    genero = 'M';
+                }
+                if (rtbFemenino.isSelected()) {
+                    genero = 'F';
+                }
+
+                fechaNacimiento = this.obtenerFecha(txtFechaNacimiento.getText());
+
+                ciudad = txtCiudad.getText();
+
+                idProvincia = this.getIdProvincia();
+
+                alergias = txtAlergias.getText();
+
+                peso = Double.parseDouble(txtPeso.getText());
+                altura = Double.parseDouble(txtAltura.getText());
+
+                System.out.println(idProvincia);
+
+                //creamos el paciente
+                Paciente paciente = new Paciente(nombre, apellido, genero, fechaNacimiento, ciudad, idProvincia, alergias, peso, altura);
+                implePacienteDao.insertarPaciente(paciente);
+                conexion.commit();
+                JOptionPane.showMessageDialog(null, "Paciente registrado correctamente ", "REGISTRO DE DOCTOR",
+                        JOptionPane.INFORMATION_MESSAGE);
+                this.limpiarCamposFormulario();
+            } catch (HeadlessException | NumberFormatException | SQLException e) {
+                System.out.println("error en el boton registrar: " + e.getMessage());
+                try {
+                    conexion.rollback();
+                } catch (SQLException ex) {
+                    System.out.println("Error boton guardar paciente: " + ex.toString());
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor verificar el campo " + mensaje + "!.", "ATENCIÓN",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private java.util.Date obtenerFecha(String fechaIngresada) {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date fecha = null;
+        try {
+            fecha = formatoFecha.parse(fechaIngresada);
+        } catch (ParseException e) {
+            System.out.println("error al convertir fecha " + e.getMessage());
+        }
+        return fecha;
     }
 }
