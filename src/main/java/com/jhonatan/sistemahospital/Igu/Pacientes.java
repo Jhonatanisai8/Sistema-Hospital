@@ -1,20 +1,28 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.DaoImplementacion.ImplePacienteDao;
 import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 
 public class Pacientes extends javax.swing.JPanel {
-
+    
+    ImplePacienteDao implePacienteDao = new ImplePacienteDao();
+    private final String[] columnas = {"ID PACIENTE", "NOMBRE", "APELLIDO", "GENERO", "FECHA DE NACIMIENTO", "CIUDAD", "PROVINCIA", "ALERGIAS", "PESO", "ALTURA"};
+    DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+    
     public Pacientes() {
         initComponents();
         InitStyles();
+        //   this.listarTabla();
+        this.listarEnTabla();
     }
-
+    
     private void InitStyles() {
         lblTitulo.putClientProperty("FlatLaf.styleClass", "h1");
         lblTitulo.setForeground(Color.black);
         txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del paciente a buscar.");
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -204,4 +212,30 @@ public class Pacientes extends javax.swing.JPanel {
     private javax.swing.JTable tblPacientes;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+
+    private void listarTabla() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) tblPacientes.getModel();
+            implePacienteDao.listarPacientes("").forEach(
+                    (u) -> model.addRow(
+                            new Object[]{u.getIdPaciente(),
+                                u.getNombre(),
+                                u.getApellido(),
+                                u.getGenero(),
+                                u.getFechaNacimiento(),
+                                u.getCiudad(),
+                                u.getIdProvincia(),
+                                u.getAlergias(),
+                                u.getPeso(),
+                                u.getAltura()}
+                    ));
+        } catch (Exception e) {
+            System.out.println("error al listar tabla: " + e.getMessage());
+        }
+    }
+    
+    private void listarEnTabla() {
+        implePacienteDao.listarTabla(modelo);
+        tblPacientes.setModel(modelo);
+    }
 }

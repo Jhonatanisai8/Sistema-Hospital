@@ -7,6 +7,7 @@ import com.jhonatan.sistemahospital.InterfacesDao.DaoPaciente;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 public class ImplePacienteDao implements DaoPaciente {
 
@@ -15,10 +16,61 @@ public class ImplePacienteDao implements DaoPaciente {
     /* consultas */
     private static final String SQL_INSERT = "INSERT INTO paciente (nombre,apellido,genero,fechaNacimiento,ciudad,id_Provincia,alergias,peso,altura) "
             + "VALUES (?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_LISTAR01 = "select * from paciente";
+    private static final String SQL_LISTARPACIENTE_PROVINCIA = "SELECT paciente.idpaciente, "
+            + "paciente.nombre, "
+            + "paciente.apellido, "
+            + "paciente.genero, "
+            + "paciente.fechaNacimiento, "
+            + "paciente.ciudad, "
+            + "provincia.nombre, "
+            + "paciente.alergias, "
+            + "paciente.peso, "
+            + "paciente.altura "
+            + "FROM paciente INNER JOIN provincia "
+            + "ON paciente.id_Provincia = provincia.idprovincia";
 
     @Override
-    public List<Paciente> listarDoctores() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Paciente> listarPacientes(String nombre) {
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        ResultSet resultado = null;
+
+        List<Paciente> listaPacientes = null;
+        String SQL_LISTAR = "SELECT * FROM paciente WHERE nombre LIKE '%" + nombre + "%'";
+        Provincia provincia;
+        try {
+            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
+            String SQL_SELECT = nombre.isEmpty() ? SQL_LISTAR01 : SQL_LISTAR;
+            consultaPreparada = conexion.prepareStatement(SQL_SELECT);
+            resultado = consultaPreparada.executeQuery();
+            listaPacientes = new ArrayList<>();
+
+            while (resultado.next()) {
+                Paciente paciente = new Paciente(
+                        resultado.getInt("idpaciente"),
+                        resultado.getString("nombre"),
+                        resultado.getString("apellido"),
+                        resultado.getString("genero").charAt(0),
+                        resultado.getDate("fechaNacimiento"),
+                        resultado.getString("ciudad"),
+                        resultado.getString("id_Provincia").charAt(0),
+                        resultado.getString("alergias"),
+                        resultado.getDouble("peso"),
+                        resultado.getDouble("altura"));
+                listaPacientes.add(paciente);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al listar pacientes: " + e.getMessage());
+        } finally {
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            instanciaMYSQL.cerrarResultSet(resultado);
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+        return listaPacientes;
     }
 
     @Override
@@ -98,5 +150,40 @@ public class ImplePacienteDao implements DaoPaciente {
             }
         }
         return listaProvincias;
+    }
+
+    public void listarTabla(DefaultTableModel model) {
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        ResultSet resultado = null;
+        ResultSetMetaData datos = null;
+
+        try {
+            conexion = instanciaMYSQL.conectarConBaseDatos();
+            consultaPreparada = conexion.prepareStatement(SQL_LISTARPACIENTE_PROVINCIA);
+            resultado = consultaPreparada.executeQuery();
+            datos = resultado.getMetaData();
+
+            int cantidadColumnas = datos.getColumnCount();
+
+            while (resultado.next()) {
+                Object arreglo[] = new Object[cantidadColumnas];
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    arreglo[i] = resultado.getObject(i + 1);
+                }
+                model.addRow(arreglo);
+            }
+        } catch (SQLException e) {
+            System.out.println("listar en tabla: " + e.getMessage());
+        } finally {
+            /*cerramos*/
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            instanciaMYSQL.cerrarResultSet(resultado);
+            /*cerramos la conexion*/
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+
     }
 }

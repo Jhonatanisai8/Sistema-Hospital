@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface DaoPaciente {
 
-    public List<Paciente> listarDoctores();
+    public List<Paciente> listarPacientes(String nombre);
 
     public int insertarPaciente(Paciente paciente);
 
