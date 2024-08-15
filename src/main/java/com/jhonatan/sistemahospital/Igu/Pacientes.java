@@ -1,14 +1,22 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.ClaseMain.Clases.Paciente;
+import com.jhonatan.sistemahospital.ConexionBD.Conexion;
 import com.jhonatan.sistemahospital.DaoImplementacion.ImplePacienteDao;
 import java.awt.Color;
+import java.awt.HeadlessException;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 
 public class Pacientes extends javax.swing.JPanel {
     
     ImplePacienteDao implePacienteDao = new ImplePacienteDao();
     private final String[] columnas = {"ID PACIENTE", "NOMBRE", "APELLIDO", "GENERO", "FECHA DE NACIMIENTO", "CIUDAD", "PROVINCIA", "ALERGIAS", "PESO", "ALTURA"};
     DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+    /*variable de tipo conexion*/
+    Connection conexion = null;
+    Conexion instanciaMYSQL = Conexion.getInstancia();
     
     public Pacientes() {
         initComponents();
@@ -185,7 +193,7 @@ public class Pacientes extends javax.swing.JPanel {
     }//GEN-LAST:event_tblPacientesMousePressed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        System.out.println("");
+        this.eliminarPaciente();
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -235,7 +243,53 @@ public class Pacientes extends javax.swing.JPanel {
     }
     
     private void listarEnTabla() {
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
         implePacienteDao.listarTabla(modelo);
         tblPacientes.setModel(modelo);
     }
+    
+    private void eliminarPaciente() {
+        int filasSeleccionadas[] = tblPacientes.getSelectedRows();
+        if (filasSeleccionadas.length == 0) {
+            JOptionPane.showMessageDialog(null, "Por favor selecciona una o más filas para eliminar.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        StringBuilder cantIds = new StringBuilder();
+        for (int i = 0; i < filasSeleccionadas.length; i++) {
+            String idPaciente = tblPacientes.getValueAt(filasSeleccionadas[i], 0).toString();
+            if (cantIds.length() > 0) {
+                cantIds.append(",");
+            }
+            cantIds.append(idPaciente);
+        }
+        try {
+            conexion = instanciaMYSQL.conectarConBaseDatos();
+            if (conexion.getAutoCommit()) {
+                conexion.setAutoCommit(false);
+            }
+            int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar los registros con ID: " + cantIds + "?", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            
+            if (opcion == JOptionPane.YES_OPTION) {
+                for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
+                    int idPaciente = (int) tblPacientes.getValueAt(filasSeleccionadas[i], 0);
+                    Paciente pacienteEliminado = new Paciente(idPaciente);
+                    implePacienteDao.eliminarPaciente(pacienteEliminado);
+                }
+                conexion.commit();
+                JOptionPane.showMessageDialog(null, "Registros eliminados", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
+            }
+            this.listarEnTabla();
+        } catch (HeadlessException | SQLException e) {
+            System.out.println("Error el boton eliminar: " + e.toString());
+            try {
+                conexion.rollback();
+            } catch (SQLException ex) {
+                System.out.println("conexion.rollback(): " + ex.toString());
+            }
+        }
+    }
+    
 }

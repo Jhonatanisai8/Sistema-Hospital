@@ -6,6 +6,7 @@ public class SistemaHospital {
 
     public static void main(String[] args) {
         llamarFormularioPrincipal();
+        //insertarPaciente();
     }
 
     public static void llamarFormularioPrincipal() {
