@@ -30,6 +30,8 @@ public class ImplePacienteDao implements DaoPaciente {
             + "FROM paciente INNER JOIN provincia "
             + "ON paciente.id_Provincia = provincia.idprovincia";
 
+    private static final String QSL_DELETE = "DELETE FROM paciente WHERE idpaciente = ?";
+
     @Override
     public List<Paciente> listarPacientes(String nombre) {
         Connection conexion = null;
@@ -114,7 +116,24 @@ public class ImplePacienteDao implements DaoPaciente {
 
     @Override
     public int eliminarPaciente(Paciente paciente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        int registros = 0;
+        try {
+            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
+            consultaPreparada = conexion.prepareStatement(QSL_DELETE);
+            consultaPreparada.setInt(1, paciente.getIdPaciente());
+            registros = consultaPreparada.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar una paciente: " + e.getMessage());
+        } finally {
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            /* cerramos la conexion */
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+        return registros;
     }
 
     @Override
