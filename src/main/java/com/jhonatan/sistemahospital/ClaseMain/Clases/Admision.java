@@ -26,7 +26,10 @@ public class Admision {
 
     public Admision(int idPaciente, Date fechaAdmision, Date fechaAlta, String diagnostico, int idDoctor) {
         this.idPaciente = idPaciente;
-
+        this.fechaAdmision = fechaAdmision;
+        this.fechaAlta = fechaAlta;
+        this.diagnostico = diagnostico;
+        this.idDoctor = idDoctor;
     }
 
     public int getIdPaciente() {
