@@ -14,6 +14,7 @@ public class ImpleAdmisionDao implements DaoAdmision {
 
     private static final String SQL_SELECT_PACIENTES = "SELECT idpaciente,concat(nombre,' ',apellido) AS NOMBRE_PACIENTE FROM paciente";
     private static final String SQL_SELECT_DOCTORES = "SELECT iddoctor,concat(nombre,' ',apellido) AS NOMBRE_DOCTOR FROM doctor";
+    private static final String SQL_INSERT_ADMISION = "INSERT INTO admision (id_Paciente,fechaAdmision,fechaAlta,diagnostico,id_doctor) VALUES (?,?,?,?,?)";
 
     @Override
 
@@ -23,7 +24,37 @@ public class ImpleAdmisionDao implements DaoAdmision {
 
     @Override
     public int insertarAdmision(Admision admision) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        int registros = 0;
+
+        try {
+            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
+            consultaPreparada = conexion.prepareStatement(SQL_INSERT_ADMISION);
+
+            //le pasamos los parametros
+            consultaPreparada.setInt(1, admision.getIdPaciente());
+
+            //le pasamos las fechas
+            java.sql.Date dateFechaAdmision = new java.sql.Date(admision.getFechaAdmision().getTime());
+            consultaPreparada.setDate(2, dateFechaAdmision);
+            
+            java.sql.Date dateFechaAlta = new java.sql.Date(admision.getFechaAlta().getTime());
+            consultaPreparada.setDate(3, dateFechaAlta);
+            
+            consultaPreparada.setString(4, admision.getDiagnostico());
+            consultaPreparada.setInt(5, admision.getIdDoctor());
+
+            registros = consultaPreparada.executeUpdate();
+        } catch (SQLException | NullPointerException e) {
+            System.out.println("error al insertar una admision: " + e.getMessage());
+        } finally {
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+        return registros;
     }
 
     @Override
@@ -46,7 +77,7 @@ public class ImpleAdmisionDao implements DaoAdmision {
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
         ResultSetMetaData datos = null;
-        
+
         /*depende del parametro que le enviemos listara los pacientes o los doctores*/
         String sqlSelect = pacienteOdoctor.isEmpty() ? SQL_SELECT_PACIENTES : SQL_SELECT_DOCTORES;
         try {
