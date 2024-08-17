@@ -33,6 +33,7 @@ com\jhonatan\sistemahospital\Igu\Doctores$8.class
 com\jhonatan\sistemahospital\Igu\provincia$3.class
 com\jhonatan\sistemahospital\Igu\Pacientes$5.class
 com\jhonatan\sistemahospital\Igu\admisiones$4.class
+com\jhonatan\sistemahospital\ClasesEstaticas\ValidarCamposRegistroAdmision.class
 com\jhonatan\sistemahospital\Igu\Dashboard.class
 com\jhonatan\sistemahospital\Igu\Dashboard$3.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$7.class

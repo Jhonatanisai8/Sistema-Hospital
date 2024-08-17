@@ -1,9 +1,15 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.ClaseMain.Clases.Admision;
+import com.jhonatan.sistemahospital.ClasesEstaticas.ValidarCamposRegistroAdmision;
 import com.jhonatan.sistemahospital.ConexionBD.Conexion;
 import com.jhonatan.sistemahospital.DaoImplementacion.ImpleAdmisionDao;
 import java.sql.*;
 import java.awt.Color;
+import java.awt.HeadlessException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class RegistroAdmisiones extends javax.swing.JPanel {
@@ -29,8 +35,8 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
         txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
-        txtFechaAlta.putClientProperty("JTextField.placeholderText", "Ingrese la fecha de Ingreso.");
-        txtFechaIngreso.putClientProperty("JTextField.placeholderText", "Ingrese la fecha de Alta.");
+        txtFechaAlta.putClientProperty("JTextField.placeholderText", "Ingrese la fecha de Alta.");
+        txtFechaIngreso.putClientProperty("JTextField.placeholderText", "Ingrese la fecha de Ingreso.");
     }
 
     @SuppressWarnings("unchecked")
@@ -45,7 +51,7 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
         tblPacientez = new javax.swing.JTable();
         btnBorrar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
-        btnNuevo = new javax.swing.JButton();
+        btnNueva = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblDoctores = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -130,15 +136,15 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
             }
         });
 
-        btnNuevo.setBackground(new java.awt.Color(0, 153, 255));
-        btnNuevo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnNuevo.setForeground(new java.awt.Color(255, 255, 255));
-        btnNuevo.setText("Nuevo");
-        btnNuevo.setBorderPainted(false);
-        btnNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+        btnNueva.setBackground(new java.awt.Color(0, 153, 255));
+        btnNueva.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnNueva.setForeground(new java.awt.Color(255, 255, 255));
+        btnNueva.setText("Save");
+        btnNueva.setBorderPainted(false);
+        btnNueva.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnNueva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoActionPerformed(evt);
+                btnNuevaActionPerformed(evt);
             }
         });
 
@@ -182,7 +188,7 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setText("Fecha de Ingreso:");
+        jLabel2.setText("Fecha de Alta:");
 
         txtFechaAlta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,7 +233,7 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
                         .addGap(61, 61, 61))
                     .addGroup(bgLayout.createSequentialGroup()
                         .addGap(133, 133, 133)
-                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
@@ -272,7 +278,7 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
                     .addGroup(bgLayout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnNuevo)
+                            .addComponent(btnNueva)
                             .addComponent(btnEditar)
                             .addComponent(btnBorrar)))))
         );
@@ -289,9 +295,9 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        System.out.println("");
-    }//GEN-LAST:event_btnNuevoActionPerformed
+    private void btnNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaActionPerformed
+        this.registrarAdmision();
+    }//GEN-LAST:event_btnNuevaActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         System.out.println("");
@@ -327,7 +333,7 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnNueva;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -358,4 +364,53 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
         admisionDao.listarEnTablaPacientes(modeloDoctores, "123456");
         tblDoctores.setModel(modeloDoctores);
     }
+
+    private void registrarAdmision() {
+        String mensaje = ValidarCamposRegistroAdmision.validarCamposADmicion(tblPacientez, tblDoctores, txtFechaIngreso, txtFechaAlta, txtDiagnostico);
+        if (mensaje.equals("")) {
+            try {
+                conexion = instanciaMYSQL.conectarConBaseDatos();
+                if (conexion.getAutoCommit()) {
+                    conexion.setAutoCommit(false);
+                }
+                int idPaciente;
+                java.util.Date fechaAdmision;
+                java.util.Date fechaAlta;
+                String diagnostico;
+                int idDoctor;
+
+                int filaIdPaciente = tblPacientez.getSelectedRow();
+                idPaciente = (int) tblPacientez.getValueAt(filaIdPaciente, 0);
+
+                fechaAdmision = ValidarCamposRegistroAdmision.obtenerFecha(txtFechaIngreso.getText());
+                fechaAlta = ValidarCamposRegistroAdmision.obtenerFecha(txtFechaAlta.getText());
+                System.out.println(fechaAdmision);
+                System.out.println(fechaAlta);
+
+                int filaIdDoctor = tblDoctores.getSelectedRow();
+                idDoctor = (int) tblDoctores.getValueAt(filaIdDoctor, 0);
+
+                diagnostico = txtDiagnostico.getText();
+
+                //creamos el objetos
+                Admision admisionNueva = new Admision(idPaciente, fechaAdmision, fechaAlta, diagnostico, idDoctor);
+
+                admisionDao.insertarAdmision(admisionNueva);
+
+                conexion.commit();
+                JOptionPane.showMessageDialog(null, "Admición Registrado", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (HeadlessException | SQLException e) {
+                System.out.println("error en el boton registrar: " + e.getMessage());
+                try {
+                    conexion.rollback();
+                } catch (SQLException ex) {
+                    System.out.println("Error al guardar admision boton: " + ex.toString());
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Verificar el campo: " + mensaje, "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
 }
