@@ -1,12 +1,28 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.ConexionBD.Conexion;
+import com.jhonatan.sistemahospital.DaoImplementacion.ImpleAdmisionDao;
+import java.sql.*;
 import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 
 public class RegistroAdmisiones extends javax.swing.JPanel {
+
+    ImpleAdmisionDao admisionDao = new ImpleAdmisionDao();
+    private final String[] columnasPacientes = {"ID PACIENTE", "NOMBRE"};
+    DefaultTableModel modeloPacientes = new DefaultTableModel(columnasPacientes, 0);
+
+    private final String[] columnasDoctores = {"ID DOCTOR", "NOMBRE"};
+    DefaultTableModel modeloDoctores = new DefaultTableModel(columnasDoctores, 0);
+    /*variable de tipo conexion*/
+    Connection conexion = null;
+    Conexion instanciaMYSQL = Conexion.getInstancia();
 
     public RegistroAdmisiones() {
         initComponents();
         InitStyles();
+        this.listarPacientes();
+        this.listarDoctores();
     }
 
     private void InitStyles() {
@@ -15,7 +31,6 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
         txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
         txtFechaAlta.putClientProperty("JTextField.placeholderText", "Ingrese la fecha de Ingreso.");
         txtFechaIngreso.putClientProperty("JTextField.placeholderText", "Ingrese la fecha de Alta.");
-
     }
 
     @SuppressWarnings("unchecked")
@@ -27,7 +42,7 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        btnPaciente = new javax.swing.JTable();
+        tblPacientez = new javax.swing.JTable();
         btnBorrar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
@@ -59,8 +74,8 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
             }
         });
 
-        btnPaciente.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        btnPaciente.setModel(new javax.swing.table.DefaultTableModel(
+        tblPacientez.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        tblPacientez.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -83,13 +98,13 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        btnPaciente.getTableHeader().setReorderingAllowed(false);
-        btnPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblPacientez.getTableHeader().setReorderingAllowed(false);
+        tblPacientez.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnPacienteMousePressed(evt);
+                tblPacientezMousePressed(evt);
             }
         });
-        jScrollPane1.setViewportView(btnPaciente);
+        jScrollPane1.setViewportView(tblPacientez);
 
         btnBorrar.setBackground(new java.awt.Color(0, 153, 255));
         btnBorrar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -274,10 +289,6 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPacienteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPacienteMousePressed
-
-    }//GEN-LAST:event_btnPacienteMousePressed
-
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         System.out.println("");
     }//GEN-LAST:event_btnNuevoActionPerformed
@@ -294,10 +305,6 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
         System.out.println("");
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void tblDoctoresMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDoctoresMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblDoctoresMousePressed
-
     private void txtFechaIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaIngresoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaIngresoActionPerformed
@@ -306,6 +313,14 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaAltaActionPerformed
 
+    private void tblPacientezMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPacientezMousePressed
+
+    }//GEN-LAST:event_tblPacientezMousePressed
+
+    private void tblDoctoresMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDoctoresMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblDoctoresMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
@@ -313,7 +328,6 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JTable btnPaciente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -321,10 +335,27 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tblDoctores;
+    private javax.swing.JTable tblPacientez;
     private javax.swing.JLabel title;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextArea txtDiagnostico;
     private javax.swing.JTextField txtFechaAlta;
     private javax.swing.JTextField txtFechaIngreso;
     // End of variables declaration//GEN-END:variables
+
+    private void listarPacientes() {
+        while (modeloPacientes.getRowCount() > 0) {
+            modeloPacientes.removeRow(0);
+        }
+        admisionDao.listarEnTablaPacientes(modeloPacientes, "");
+        tblPacientez.setModel(modeloPacientes);
+    }
+
+    private void listarDoctores() {
+        while (modeloDoctores.getRowCount() > 0) {
+            modeloDoctores.removeRow(0);
+        }
+        admisionDao.listarEnTablaPacientes(modeloDoctores, "123456");
+        tblDoctores.setModel(modeloDoctores);
+    }
 }

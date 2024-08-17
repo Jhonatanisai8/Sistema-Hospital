@@ -55,7 +55,7 @@ public class admisiones extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID Pacientes", "Paciente", "Fecha Admisión", "Fecha Alta", "Diagnostico", "ID Doctor", "Doctor"
+                "ID Paciente", "Paciente", "Fecha Admisión", "Fecha Alta", "Diagnostico", "ID Doctor", "Doctor"
             }
         ) {
             boolean[] canEdit = new boolean [] {

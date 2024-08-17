@@ -50,11 +50,14 @@ com\jhonatan\sistemahospital\Igu\RegistroPacientes$1.class
 com\jhonatan\sistemahospital\ClaseMain\SistemaHospital.class
 com\jhonatan\sistemahospital\DaoImplementacion\ImpleProvinciaDao.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$6.class
+com\jhonatan\sistemahospital\InterfacesDao\DaoAdmision.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$9.class
+com\jhonatan\sistemahospital\DaoImplementacion\ImpleAdmisionDao.class
 com\jhonatan\sistemahospital\Igu\Dashboard$5.class
 com\jhonatan\sistemahospital\Igu\admisiones$1.class
 com\jhonatan\sistemahospital\Igu\Doctores.class
 com\jhonatan\sistemahospital\Igu\registroProvincias$1.class
+com\jhonatan\sistemahospital\ClaseMain\Clases\Admision.class
 com\jhonatan\sistemahospital\Igu\Doctores$5.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$3.class
 com\jhonatan\sistemahospital\Igu\Pacientes.class
