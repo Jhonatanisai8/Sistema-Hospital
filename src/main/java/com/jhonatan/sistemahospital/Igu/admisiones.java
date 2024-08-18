@@ -1,22 +1,28 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.DaoImplementacion.ImpleAdmisionDao;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
 
 public class admisiones extends javax.swing.JPanel {
-    
+
+    ImpleAdmisionDao admisionDao = new ImpleAdmisionDao();
+    private final String[] columnas = {"ID PACIENTE", "PACIENTE", "FECHA ADMISION", "FECHA ALTA", "DIAGNOSTICO", "ID DOCTOR", "DOCTOR"};
+    DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+
     public admisiones() {
         initComponents();
-        
         InitStyles();
+
     }
-    
+
     private void InitStyles() {
         title.putClientProperty("FlatLaf.styleClass", "h1");
         title.setForeground(Color.black);
         txtBuscar.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de usuario a buscar.");
+        this.listarEnTabla();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -26,7 +32,7 @@ public class admisiones extends javax.swing.JPanel {
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        btlAdmisiones = new javax.swing.JTable();
+        tblAdmisiones = new javax.swing.JTable();
         btnBorar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
@@ -49,8 +55,8 @@ public class admisiones extends javax.swing.JPanel {
             }
         });
 
-        btlAdmisiones.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        btlAdmisiones.setModel(new javax.swing.table.DefaultTableModel(
+        tblAdmisiones.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        tblAdmisiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -66,13 +72,13 @@ public class admisiones extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        btlAdmisiones.getTableHeader().setReorderingAllowed(false);
-        btlAdmisiones.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblAdmisiones.getTableHeader().setReorderingAllowed(false);
+        tblAdmisiones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btlAdmisionesMousePressed(evt);
+                tblAdmisionesMousePressed(evt);
             }
         });
-        jScrollPane1.setViewportView(btlAdmisiones);
+        jScrollPane1.setViewportView(tblAdmisiones);
 
         btnBorar.setBackground(new java.awt.Color(0, 153, 255));
         btnBorar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -167,9 +173,9 @@ public class admisiones extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btlAdmisionesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btlAdmisionesMousePressed
+    private void tblAdmisionesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAdmisionesMousePressed
 
-    }//GEN-LAST:event_btlAdmisionesMousePressed
+    }//GEN-LAST:event_tblAdmisionesMousePressed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         Dashboard.ShowJPanel(new RegistroAdmisiones());
@@ -190,13 +196,22 @@ public class admisiones extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
-    private javax.swing.JTable btlAdmisiones;
     private javax.swing.JButton btnBorar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblAdmisiones;
     private javax.swing.JLabel title;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+
+    private void listarEnTabla() {
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
+        admisionDao.listarEnTablaAdmisiones(modelo);
+        tblAdmisiones.setModel(modelo);
+    }
+
 }

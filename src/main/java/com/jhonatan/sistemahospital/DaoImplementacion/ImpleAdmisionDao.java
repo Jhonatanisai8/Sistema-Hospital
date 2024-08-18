@@ -15,6 +15,16 @@ public class ImpleAdmisionDao implements DaoAdmision {
     private static final String SQL_SELECT_PACIENTES = "SELECT idpaciente,concat(nombre,' ',apellido) AS NOMBRE_PACIENTE FROM paciente";
     private static final String SQL_SELECT_DOCTORES = "SELECT iddoctor,concat(nombre,' ',apellido) AS NOMBRE_DOCTOR FROM doctor";
     private static final String SQL_INSERT_ADMISION = "INSERT INTO admision (id_Paciente,fechaAdmision,fechaAlta,diagnostico,id_doctor) VALUES (?,?,?,?,?)";
+    private static final String SQL_SELECT_ADMISION = "SELECT admision.id_Paciente,"
+            + "CONCAT(paciente.nombre,' ',paciente.apellido),"
+            + " admision.fechaAdmision,"
+            + " admision.fechaAlta,"
+            + " admision.diagnostico,"
+            + " admision.id_doctor,"
+            + " CONCAT(doctor.nombre,' ',doctor.apellido)"
+            + " FROM admision"
+            + " INNER JOIN paciente ON admision.id_Paciente = paciente.idpaciente"
+            + " INNER JOIN doctor ON admision.id_doctor = doctor.iddoctor";
 
     @Override
 
@@ -38,10 +48,10 @@ public class ImpleAdmisionDao implements DaoAdmision {
             //le pasamos las fechas
             java.sql.Date dateFechaAdmision = new java.sql.Date(admision.getFechaAdmision().getTime());
             consultaPreparada.setDate(2, dateFechaAdmision);
-            
+
             java.sql.Date dateFechaAlta = new java.sql.Date(admision.getFechaAlta().getTime());
             consultaPreparada.setDate(3, dateFechaAlta);
-            
+
             consultaPreparada.setString(4, admision.getDiagnostico());
             consultaPreparada.setInt(5, admision.getIdDoctor());
 
@@ -109,4 +119,42 @@ public class ImpleAdmisionDao implements DaoAdmision {
             }
         }
     }
+
+    public void listarEnTablaAdmisiones(DefaultTableModel modelo) {
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        ResultSet resultado = null;
+        ResultSetMetaData datos = null;
+
+        /*depende del parametro que le enviemos listara los pacientes o los doctores*/
+        try {
+            conexion = instanciaMYSQL.conectarConBaseDatos();
+            consultaPreparada = conexion.prepareStatement(SQL_SELECT_ADMISION);
+
+            resultado = consultaPreparada.executeQuery();
+            datos = resultado.getMetaData();
+
+            int cantidadColumnas = datos.getColumnCount();
+
+            while (resultado.next()) {
+                Object arreglo[] = new Object[cantidadColumnas];
+                for (int i = 0; i < cantidadColumnas; i++) {
+                    arreglo[i] = resultado.getObject(i + 1);
+                }
+                modelo.addRow(arreglo);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al listar las admisiones: " + e.getMessage());
+        } finally {
+            /*cerramos*/
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            instanciaMYSQL.cerrarResultSet(resultado);
+            /*cerramos la conexion*/
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+    }
+
 }
