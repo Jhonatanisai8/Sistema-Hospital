@@ -11,12 +11,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import javax.print.Doc;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 
 public class Dashboard extends javax.swing.JFrame {
-    
+
     public Dashboard() {
         initComponents();
         InitStyles();
@@ -24,7 +25,7 @@ public class Dashboard extends javax.swing.JFrame {
         InitContent();
         FlatMaterialLighterIJTheme.setup();
     }
-    
+
     private void InitStyles() {
         mensaje.putClientProperty("FlatLaf.style", "font: 14 $light.font");
         mensaje.setForeground(Color.black);
@@ -36,27 +37,27 @@ public class Dashboard extends javax.swing.JFrame {
         appName.setForeground(Color.white);
         this.setTitle("Sistema Hospital");
     }
-    
+
     private void SetDate() {
         LocalDate now = LocalDate.now();
         Locale spanishLocale = new Locale("es", "ES");
         dateText.setText(now.format(DateTimeFormatter.ofPattern("'Hoy es' EEEE dd 'de' MMMM 'de' yyyy", spanishLocale)));
     }
-    
+
     private void InitContent() {
         ShowJPanel(new Principal());
     }
-    
+
     public static void ShowJPanel(JPanel p) {
         p.setSize(750, 430);
         p.setLocation(0, 0);
-        
+
         content.removeAll();
         content.add(p, BorderLayout.CENTER);
         content.revalidate();
         content.repaint();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -333,9 +334,12 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_booksActionPerformed
 
     private void btn_reportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportsActionPerformed
-        System.out.println("");
+        int opcion = JOptionPane.showConfirmDialog(rootPane,"¿ESTAS SEGURO QUE QUIERES SALIR?" , "ATENCION", JOptionPane.OK_CANCEL_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            this.dispose();
+        }
     }//GEN-LAST:event_btn_reportsActionPerformed
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //FlatMaterialLighterIJTheme.setup();
