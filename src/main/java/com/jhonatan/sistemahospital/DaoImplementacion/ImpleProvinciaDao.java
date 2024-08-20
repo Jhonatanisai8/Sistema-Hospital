@@ -15,10 +15,12 @@ public class ImpleProvinciaDao implements DaoProvincia {
 
     /*CONSULTAS*/
     private static final String SQL_SELECT = "SELECT * FROM provincia";
-    private static final String SQL_INSERT = "INSERT INTO provincia (idprovincia,nombre) VALUES (?,?)";
+    private static final String SQL_INSERT = "INSERT INTO provincia (nombre) VALUES (?)";
     private static final String SQL_UPDATE = "";
-   // private static final String SQL_DELETE = "DELETE FROM provincia WHERE idprovincia = ?";
+    private static final String SQL_DELETE = "DELETE FROM provincia WHERE id_provincia = ?";
+    private static final String SELECT_LISTARTABLA = "SELECT id_provincia,nombre FROM provincia ORDER BY nombre";
 
+    // private static final String SQL_DELETE = "DELETE FROM provincia WHERE idprovincia = ?";
     @Override
     public List<Provincia> listarProvincias() {
         Connection conexion = null;
@@ -67,8 +69,7 @@ public class ImpleProvinciaDao implements DaoProvincia {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SQL_INSERT);
             /*le pasamos los valores a la consulta*/
-            consultaPreparada.setString(1, String.valueOf(provincia.getIdProvincia()));
-            consultaPreparada.setString(2, provincia.getNombre());
+            consultaPreparada.setString(1, provincia.getNombre());
 
             registros = consultaPreparada.executeUpdate();
 
@@ -96,12 +97,10 @@ public class ImpleProvinciaDao implements DaoProvincia {
         int registros = 0;
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
-            String SQL_DELETE = "DELETE FROM provincia WHERE idprovincia = ?";
             consultaPreparada = conexion.prepareStatement(SQL_DELETE);
-            consultaPreparada.setString(1, String.valueOf(provincia.getIdProvincia()));
-
+            consultaPreparada.setInt(1, provincia.getIdProvincia());
             registros = consultaPreparada.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error al eliminar una provincia: " + e.getMessage());
         } finally {
             instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
@@ -124,10 +123,9 @@ public class ImpleProvinciaDao implements DaoProvincia {
         ResultSet resultado = null;
         ResultSetMetaData datos = null;
 
-        String SELECT = "SELECT idprovincia,nombre FROM provincia";
         try {
             conexion = instanciaMYSQL.conectarConBaseDatos();
-            consultaPreparada = conexion.prepareStatement(SELECT);
+            consultaPreparada = conexion.prepareStatement(SELECT_LISTARTABLA);
             resultado = consultaPreparada.executeQuery();
             datos = resultado.getMetaData();
 

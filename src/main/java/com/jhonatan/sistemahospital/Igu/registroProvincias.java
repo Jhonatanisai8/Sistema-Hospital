@@ -1,14 +1,12 @@
 package com.jhonatan.sistemahospital.Igu;
 
 import com.jhonatan.sistemahospital.ClaseMain.Clases.Provincia;
-import com.jhonatan.sistemahospital.ClasesEstaticas.UteleriasProvincia;
 import com.jhonatan.sistemahospital.ConexionBD.Conexion;
 import com.jhonatan.sistemahospital.DaoImplementacion.ImpleProvinciaDao;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -24,8 +22,8 @@ public class registroProvincias extends javax.swing.JPanel {
     public registroProvincias() {
         initComponents();
         InitStyles();
-        char idProvincia = UteleriasProvincia.generarIdProvincia();
-        txtID.setText(idProvincia + "");
+        txtID.setEnabled(false);
+        txtID.setEnabled(false);
     }
 
     private void InitStyles() {
@@ -150,12 +148,11 @@ public class registroProvincias extends javax.swing.JPanel {
 
     private void limpiarCampos() {
         txtNombre.setText("");
-        txtID.setText(UteleriasProvincia.generarIdProvincia() + "");
     }
 
     private void registrarProvincia() {
         String mensaje = this.validadCampos8(txtNombre);
-        char idProvincia;
+        int idProvincia;
         String nombre;
         if (mensaje.equals("")) {
             try {
@@ -167,14 +164,14 @@ public class registroProvincias extends javax.swing.JPanel {
 
                 nombre = txtNombre.getText();
 
-                provincia = new Provincia(txtID.getText().charAt(0), nombre);
+                provincia = new Provincia(nombre);
                 impleProvinciaDao.insertarProvincia(provincia);
 
                 conexion.commit();
 
-                JOptionPane.showMessageDialog(null, "Provincia con ID: " + txtID.getText().charAt(0) + " registrada.", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Provincia con nombre: " + provincia.getNombre() + " registrada.", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
                 this.limpiarCampos();
-            } catch (Exception e) {
+            } catch (HeadlessException | SQLException e) {
                 System.out.println("Error al insertar ooton:  " + e.getMessage());
                 try {
                     conexion.rollback();

@@ -12,6 +12,10 @@ public class Provincia {
         this.idProvincia = idProvincia;
     }
 
+    public Provincia(String nombre) {
+        this.nombre = nombre;
+    }
+
     public Provincia(int idProvincia, String nombre) {
         this.idProvincia = idProvincia;
         this.nombre = nombre;

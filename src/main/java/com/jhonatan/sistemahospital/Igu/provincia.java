@@ -236,7 +236,7 @@ public class provincia extends javax.swing.JPanel {
 
         StringBuilder cantIds = new StringBuilder();
         for (int i : filasSeleccionadas) {
-            String idProvincia = tblProvincias.getValueAt(i, 0).toString();
+            int idProvincia = (int) tblProvincias.getValueAt(i, 0);
             if (cantIds.length() > 0) {
                 cantIds.append(", ");
             }
@@ -254,7 +254,7 @@ public class provincia extends javax.swing.JPanel {
 
             if (opcion == JOptionPane.YES_OPTION) {
                 for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
-                    char id = tblProvincias.getValueAt(filasSeleccionadas[i], 0).toString().charAt(0);
+                    int id = (int) tblProvincias.getValueAt(filasSeleccionadas[i], 0);
                     Provincia provinciaEliminada = new Provincia(id);
 
                     int registrosEliminados = impleProvinciaDao.eliminarProvincia(provinciaEliminada);
