@@ -8,11 +8,11 @@ public class Provincia {
     public Provincia() {
     }
 
-    public Provincia(char idProvincia) {
+    public Provincia(int idProvincia) {
         this.idProvincia = idProvincia;
     }
 
-    public Provincia(char idProvincia, String nombre) {
+    public Provincia(int idProvincia, String nombre) {
         this.idProvincia = idProvincia;
         this.nombre = nombre;
     }

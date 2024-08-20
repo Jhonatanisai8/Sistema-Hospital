@@ -25,7 +25,7 @@ public class Paciente {
     }
 
     // constructor que nos permitira modificar
-    public Paciente(String nombre, String apellido, char genero, Date fechaNacimiento, String ciudad, char idProvincia,
+    public Paciente(String nombre, String apellido, char genero, Date fechaNacimiento, String ciudad, int idProvincia,
             String alergias, double peso, double altura) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -40,7 +40,7 @@ public class Paciente {
 
     // constructor que nos permitira eliminar
     public Paciente(int idPaciente, String nombre, String apellido, char genero, Date fechaNacimiento, String ciudad,
-            char idProvincia, String alergias, double peso, double altura) {
+            int idProvincia, String alergias, double peso, double altura) {
         this.idPaciente = idPaciente;
         this.nombre = nombre;
         this.apellido = apellido;
