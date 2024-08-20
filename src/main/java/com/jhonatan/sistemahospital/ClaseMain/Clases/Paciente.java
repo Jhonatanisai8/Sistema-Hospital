@@ -3,6 +3,7 @@ package com.jhonatan.sistemahospital.ClaseMain.Clases;
 import java.util.Date;
 
 public class Paciente {
+
     // atributos
     private int idPaciente;
     private String nombre;
@@ -10,7 +11,7 @@ public class Paciente {
     private char genero;
     private Date fechaNacimiento;
     private String ciudad;
-    private char idProvincia;
+    private int idProvincia;
     private String alergias;
     private double peso;
     private double altura;
@@ -100,11 +101,11 @@ public class Paciente {
         this.ciudad = ciudad;
     }
 
-    public char getIdProvincia() {
+    public int getIdProvincia() {
         return idProvincia;
     }
 
-    public void setIdProvincia(char idProvincia) {
+    public void setIdProvincia(int idProvincia) {
         this.idProvincia = idProvincia;
     }
 
