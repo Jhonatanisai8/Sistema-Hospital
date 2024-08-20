@@ -19,8 +19,8 @@ public class ImpleDoctorDao implements DaoDoctor {
     private static final String SQL_SELECT = "select * from doctor";
     private static final String SQL_INSERT = "insert into doctor (nombre,apellido,especialidad) values (?,?,?)";
     private static final String SQL_UPDATE = "update doctor set nombre = ?, apellido = ?, especialidad = ? where iddoctor = ?";
-    private static final String SQL_DELETE = "delete from doctor where iddoctor = ?";
-    private static final String SQL_SELECT_DOCTOR = "SELECT * FROM doctor WHERE iddoctor = ? LIMIT 1";
+    private static final String SQL_DELETE = "delete from doctor where id_doctor = ?";
+    private static final String SQL_SELECT_DOCTOR = "SELECT * FROM doctor WHERE id_doctor = ? LIMIT 1";
 
     public ImpleDoctorDao() {
 
@@ -36,7 +36,7 @@ public class ImpleDoctorDao implements DaoDoctor {
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
 
-        List<Doctor> listaDoctores = new ArrayList<Doctor>();
+        List<Doctor> listaDoctores = new ArrayList<>();
         Doctor doctor;
 
         try {
@@ -84,7 +84,7 @@ public class ImpleDoctorDao implements DaoDoctor {
 
             registros = consultaPreparada.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error al insertar un doctor: " + e.toString());
         } finally {
             instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
@@ -113,7 +113,7 @@ public class ImpleDoctorDao implements DaoDoctor {
             consultaPreparada.setInt(4, doctor.getIdDoctor());
 
             registros = consultaPreparada.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error al momento de modificar un doctor: " + e.toString());
         } finally {
             instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
@@ -137,7 +137,7 @@ public class ImpleDoctorDao implements DaoDoctor {
             consultaPreparada.setInt(1, doctor.getIdDoctor());
 
             registros = consultaPreparada.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error al eliminar un doctor: " + e.toString());
         } finally {
             instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
@@ -159,18 +159,18 @@ public class ImpleDoctorDao implements DaoDoctor {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SQL_SELECT_DOCTOR);
 
-            consultaPreparada.setInt(1, id);;
+            consultaPreparada.setInt(1, id);
             resultado = consultaPreparada.executeQuery();
 
             while (resultado.next()) {
                 /*uso del constructor con todos los parametros*/
                 doctor = new Doctor(
-                        resultado.getInt("iddoctor"),
+                        resultado.getInt("id_doctor"),
                         resultado.getString("nombre"),
                         resultado.getString("apellido"),
                         resultado.getString("especialidad"));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error al obtener la informacion del doctor");
         } finally {
             instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
@@ -186,7 +186,7 @@ public class ImpleDoctorDao implements DaoDoctor {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
-        String SELECT = "SELECT iddoctor,nombre,apellido,especialidad FROM doctor";
+        String SELECT = "SELECT id_doctor,nombre,apellido,especialidad FROM doctor";
         try {
             conexion = instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SELECT);

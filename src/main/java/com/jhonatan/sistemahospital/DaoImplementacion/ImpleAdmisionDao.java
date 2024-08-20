@@ -12,19 +12,21 @@ public class ImpleAdmisionDao implements DaoAdmision {
     private Connection conexionMYSQL;
     Conexion instanciaMYSQL = Conexion.getInstancia();
 
-    private static final String SQL_SELECT_PACIENTES = "SELECT idpaciente,concat(nombre,' ',apellido) AS NOMBRE_PACIENTE FROM paciente";
-    private static final String SQL_SELECT_DOCTORES = "SELECT iddoctor,concat(nombre,' ',apellido) AS NOMBRE_DOCTOR FROM doctor";
-    private static final String SQL_INSERT_ADMISION = "INSERT INTO admision (id_Paciente,fechaAdmision,fechaAlta,diagnostico,id_doctor) VALUES (?,?,?,?,?)";
-    private static final String SQL_SELECT_ADMISION = "SELECT admision.id_Paciente,"
-            + "CONCAT(paciente.nombre,' ',paciente.apellido),"
-            + " admision.fechaAdmision,"
-            + " admision.fechaAlta,"
+    private static final String SQL_SELECT_PACIENTES = "SELECT id_paciente,CONCAT(nombre,' ',apellido) FROM paciente";
+    private static final String SQL_SELECT_DOCTORES = "SELECT id_doctor,CONCAT(nombre,' ',apellido) FROM doctor";
+    private static final String SQL_INSERT_ADMISION = "INSERT INTO admision(id_paciente,fecha_admision,fecha_alta,diagnostico,id_doctor) VALUES (?,?,?,?,?)";
+    private static final String SQL_SELECT_ADMISION = "SELECT "
+            + " admision.id_admision,"
+            + " admision.id_paciente,"
+            + " CONCAT(paciente.nombre,' ',paciente.apellido),"
+            + " admision.fecha_admision,"
+            + " admision.fecha_alta,"
             + " admision.diagnostico,"
             + " admision.id_doctor,"
             + " CONCAT(doctor.nombre,' ',doctor.apellido)"
             + " FROM admision"
-            + " INNER JOIN paciente ON admision.id_Paciente = paciente.idpaciente"
-            + " INNER JOIN doctor ON admision.id_doctor = doctor.iddoctor";
+            + " INNER JOIN paciente ON admision.id_paciente = paciente.id_paciente"
+            + " INNER JOIN doctor ON admision.id_doctor = doctor.id_doctor";
 
     @Override
 
