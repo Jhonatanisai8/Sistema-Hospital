@@ -316,8 +316,8 @@ public class RegistroPacientes extends javax.swing.JPanel {
         }
     }
 
-    private char getIdProvincia() {
-        char idProvincia;
+    private int getIdProvincia() {
+        int idProvincia;
         idProvincia = cbxProvincia.getItemAt(cbxProvincia.getSelectedIndex()).getIdProvincia();
         System.out.println(String.valueOf(idProvincia));
         return idProvincia;
@@ -396,7 +396,7 @@ public class RegistroPacientes extends javax.swing.JPanel {
                 char genero = 0;
                 java.util.Date fechaNacimiento;
                 String ciudad;
-                char idProvincia;
+                int idProvincia;
                 String alergias;
                 double peso;
                 double altura;
