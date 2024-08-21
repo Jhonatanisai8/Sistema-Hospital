@@ -4,6 +4,7 @@ com\jhonatan\sistemahospital\InterfacesDao\DaoProvincia.class
 com\jhonatan\sistemahospital\Igu\Principal.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones.class
 com\jhonatan\sistemahospital\Igu\provincia$6.class
+com\jhonatan\sistemahospital\Igu\Graficos.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$8.class
 com\jhonatan\sistemahospital\Igu\RegistroPacientes$3.class
 com\jhonatan\sistemahospital\Igu\Dashboard$7.class
@@ -65,6 +66,7 @@ com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$10.class
 com\jhonatan\sistemahospital\Igu\provincia.class
 com\jhonatan\sistemahospital\DaoImplementacion\ImplePacienteDao.class
 com\jhonatan\sistemahospital\Igu\Dashboard$6.class
+com\jhonatan\sistemahospital\Igu\Doctores$10.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$4.class
 com\jhonatan\sistemahospital\Igu\Registro_Doctor$1.class
 com\jhonatan\sistemahospital\Igu\Pacientes$1.class

@@ -21,6 +21,8 @@ public class ImpleDoctorDao implements DaoDoctor {
     private static final String SQL_UPDATE = "update doctor set nombre = ?, apellido = ?, especialidad = ? where id_doctor = ?";
     private static final String SQL_DELETE = "delete from doctor where id_doctor = ?";
     private static final String SQL_SELECT_DOCTOR = "SELECT * FROM doctor WHERE id_doctor = ? LIMIT 1";
+    private static final String SQL_LISTAR_TABLA = "SELECT id_doctor,nombre,apellido,especialidad FROM doctor";
+    private static final String SQL_GRAFICOS_ESPECIALIDAD = "SELECT COUNT(*),especialidad FROM doctor GROUP BY especialidad";
 
     public ImpleDoctorDao() {
 
@@ -182,14 +184,15 @@ public class ImpleDoctorDao implements DaoDoctor {
         return doctor;
     }
 
-    private void listarEnTabla(DefaultTableModel modelo, JTable tblDoctores) {
+    private void listarEnTabla(DefaultTableModel modelo, JTable tblDoctores, String bandera) {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
-        String SELECT = "SELECT id_doctor,nombre,apellido,especialidad FROM doctor";
+        String sql;
         try {
             conexion = instanciaMYSQL.conectarConBaseDatos();
-            consultaPreparada = conexion.prepareStatement(SELECT);
+            sql = bandera.isEmpty() ? SQL_LISTAR_TABLA : SQL_GRAFICOS_ESPECIALIDAD;
+            consultaPreparada = conexion.prepareStatement(sql);
             resultado = consultaPreparada.executeQuery();
 
             int cantidadColumnas = resultado.getMetaData().getColumnCount();
@@ -208,7 +211,7 @@ public class ImpleDoctorDao implements DaoDoctor {
 
             tblDoctores.setModel(modelo);
         } catch (SQLException e) {
-            System.out.println("Error al listar en tabla los doctores: ");
+            System.out.println("Error al listar en tabla los doctores: "+e.getMessage());
         } finally {
             /*cerramos*/
             instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
@@ -226,9 +229,9 @@ public class ImpleDoctorDao implements DaoDoctor {
         }
     }
 
-    public void mostrarLista(DefaultTableModel modelo, JTable tblDoctores) {
+    public void mostrarLista(DefaultTableModel modelo, JTable tblDoctores, String bandera) {
         this.vaciarTabla(modelo);
-        this.listarEnTabla(modelo, tblDoctores);
+        this.listarEnTabla(modelo, tblDoctores, bandera);
     }
 
 }

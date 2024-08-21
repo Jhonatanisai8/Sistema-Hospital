@@ -82,7 +82,7 @@ public class Doctores extends javax.swing.JPanel {
     }
 
     private void mostrarListaDoctores() {
-        impleDoctorDao.mostrarLista(modelo, tblDoctores);
+        impleDoctorDao.mostrarLista(modelo, tblDoctores, "");
     }
 
     private void eliminarDoctor() {
@@ -92,8 +92,9 @@ public class Doctores extends javax.swing.JPanel {
         filaSeleccionadas = tblDoctores.getSelectedRows();
 
         if (filaSeleccionadas.length == 0) {
-            JOptionPane.showMessageDialog(null, "Por favor seleccionar una o mas filas para "
-                    + "\npoder eliminae!.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, """
+                                                Por favor seleccionar una o mas filas para 
+                                                poder eliminae!.""", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -152,6 +153,7 @@ public class Doctores extends javax.swing.JPanel {
         btnBorrar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
+        btnNuevo1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -250,6 +252,18 @@ public class Doctores extends javax.swing.JPanel {
             }
         });
 
+        btnNuevo1.setBackground(new java.awt.Color(0, 153, 255));
+        btnNuevo1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnNuevo1.setForeground(new java.awt.Color(255, 255, 255));
+        btnNuevo1.setText("Grafico");
+        btnNuevo1.setBorderPainted(false);
+        btnNuevo1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnNuevo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevo1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
@@ -263,7 +277,9 @@ public class Doctores extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addGap(427, 427, 427)
+                                .addGap(329, 329, 329)
+                                .addComponent(btnNuevo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -291,7 +307,8 @@ public class Doctores extends javax.swing.JPanel {
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBorrar)
                     .addComponent(btnEditar)
-                    .addComponent(btnNuevo))
+                    .addComponent(btnNuevo)
+                    .addComponent(btnNuevo1))
                 .addGap(25, 25, 25))
         );
 
@@ -325,7 +342,9 @@ public class Doctores extends javax.swing.JPanel {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (txtBuscar.getText().trim().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese el  nombre " + "\n del doctor a buscar", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, """
+                                                Por favor ingrese el  nombre 
+                                                 del doctor a buscar""", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -338,6 +357,10 @@ public class Doctores extends javax.swing.JPanel {
         tblDoctores.setRowSorter(tbRowSorter);
     }//GEN-LAST:event_txtBuscarKeyTyped
 
+    private void btnNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevo1ActionPerformed
+        Dashboard.ShowJPanel(new Graficos());
+    }//GEN-LAST:event_btnNuevo1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
@@ -345,6 +368,7 @@ public class Doctores extends javax.swing.JPanel {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnNuevo1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDoctores;
     private javax.swing.JLabel title;
