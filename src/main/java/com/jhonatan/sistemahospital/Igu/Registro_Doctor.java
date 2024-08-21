@@ -11,7 +11,7 @@ import com.jhonatan.sistemahospital.ClasesEstaticas.ValidacionCamposDoctor;
 import com.jhonatan.sistemahospital.ConexionBD.Conexion;
 import com.jhonatan.sistemahospital.DaoImplementacion.ImpleDoctorDao;
 
-public class registroDoctor extends javax.swing.JPanel {
+public class Registro_Doctor extends javax.swing.JPanel {
 
     /* Instancias de tipo de ImpleDoctorDao y Doctor */
     ImpleDoctorDao impleDoctorDao = new ImpleDoctorDao();
@@ -21,12 +21,12 @@ public class registroDoctor extends javax.swing.JPanel {
     Connection conexion = null;
     Conexion instanciaMYSQL = Conexion.getInstancia();
 
-    public registroDoctor() {
+    public Registro_Doctor() {
         initComponents();
         InitStyles();
     }
 
-    public registroDoctor(Doctor doctor) {
+    public Registro_Doctor(Doctor doctor) {
         initComponents();
         InitStyles();
     }

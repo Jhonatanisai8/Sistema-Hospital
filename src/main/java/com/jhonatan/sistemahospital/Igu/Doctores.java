@@ -313,7 +313,7 @@ public class Doctores extends javax.swing.JPanel {
     }//GEN-LAST:event_tblDoctoresMousePressed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        Dashboard.ShowJPanel(new registroDoctor());
+        Dashboard.ShowJPanel(new Registro_Doctor());
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
@@ -361,12 +361,14 @@ public class Doctores extends javax.swing.JPanel {
                 Doctor doctor = impleDoctorDao.obtenerInformacion(idDoctor);
 
                 /*llamamos al formulario*/
-                Dashboard.ShowJPanel(new registroDoctor(doctor));
+                Dashboard.ShowJPanel(new Registro_Doctor(doctor));
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error al selecionar fila.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Por favor selecione una fila" + "\n para poder editar la informacion del doctor.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, """
+                                                Por favor selecione una fila
+                                                 para poder editar la informacion del doctor.""", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

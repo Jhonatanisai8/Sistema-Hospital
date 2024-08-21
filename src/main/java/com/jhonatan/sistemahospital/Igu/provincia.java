@@ -198,7 +198,7 @@ public class provincia extends javax.swing.JPanel {
     }//GEN-LAST:event_tblProvinciasMousePressed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        Dashboard.ShowJPanel(new registroProvincias());
+        Dashboard.ShowJPanel(new Registro_Provincias());
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed

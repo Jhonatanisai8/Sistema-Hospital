@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class registroProvincias extends javax.swing.JPanel {
+public class Registro_Provincias extends javax.swing.JPanel {
 
     ImpleProvinciaDao impleProvinciaDao = new ImpleProvinciaDao();
     Provincia provincia = new Provincia();
@@ -19,7 +19,7 @@ public class registroProvincias extends javax.swing.JPanel {
     Connection conexion = null;
     Conexion instanciaMYSQL = Conexion.getInstancia();
 
-    public registroProvincias() {
+    public Registro_Provincias() {
         initComponents();
         InitStyles();
         txtID.setEnabled(false);
