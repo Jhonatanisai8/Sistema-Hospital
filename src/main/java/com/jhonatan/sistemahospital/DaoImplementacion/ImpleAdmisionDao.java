@@ -8,10 +8,10 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
 public class ImpleAdmisionDao implements DaoAdmision {
-
+    
     private Connection conexionMYSQL;
     Conexion instanciaMYSQL = Conexion.getInstancia();
-
+    
     private static final String SQL_SELECT_PACIENTES = "SELECT id_paciente,CONCAT(nombre,' ',apellido) FROM paciente";
     private static final String SQL_SELECT_DOCTORES = "SELECT id_doctor,CONCAT(nombre,' ',apellido) FROM doctor";
     private static final String SQL_INSERT_ADMISION = "INSERT INTO admision(id_paciente,fecha_admision,fecha_alta,diagnostico,id_doctor) VALUES (?,?,?,?,?)";
@@ -28,19 +28,20 @@ public class ImpleAdmisionDao implements DaoAdmision {
             + " INNER JOIN paciente ON admision.id_paciente = paciente.id_paciente"
             + " INNER JOIN doctor ON admision.id_doctor = doctor.id_doctor"
             + " ORDER BY admision.id_admision DESC";
-
+    private static final String SQL_DELETE_ADMISION = "DELETE FROM admision WHERE id_admision = ?";
+    
     @Override
-
+    
     public List<Admision> listarAdmisiones() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public int insertarAdmision(Admision admision) {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         int registros = 0;
-
+        
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SQL_INSERT_ADMISION);
@@ -51,13 +52,13 @@ public class ImpleAdmisionDao implements DaoAdmision {
             //le pasamos las fechas
             java.sql.Date dateFechaAdmision = new java.sql.Date(admision.getFechaAdmision().getTime());
             consultaPreparada.setDate(2, dateFechaAdmision);
-
+            
             java.sql.Date dateFechaAlta = new java.sql.Date(admision.getFechaAlta().getTime());
             consultaPreparada.setDate(3, dateFechaAlta);
-
+            
             consultaPreparada.setString(4, admision.getDiagnostico());
             consultaPreparada.setInt(5, admision.getIdDoctor());
-
+            
             registros = consultaPreparada.executeUpdate();
         } catch (SQLException | NullPointerException e) {
             System.out.println("error al insertar una admision: " + e.getMessage());
@@ -69,22 +70,39 @@ public class ImpleAdmisionDao implements DaoAdmision {
         }
         return registros;
     }
-
+    
     @Override
     public int modificarAdmision(Admision admision) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public int eliminarAdmision(Admision admision) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        int registros = 0;
+        try {
+            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
+            consultaPreparada = conexion.prepareStatement(SQL_DELETE_ADMISION);
+            consultaPreparada.setInt(1, admision.getIdAdmision());
+            registros = consultaPreparada.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar una admision: " + e.getMessage());
+        } finally {
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            /* cerramos la conexion */
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+        return registros;
     }
-
+    
     @Override
     public Admision obtenerInformacion(int idAdmision) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     public void listarEnTablaPacientes(DefaultTableModel modelo, String pacienteOdoctor) {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
@@ -96,12 +114,12 @@ public class ImpleAdmisionDao implements DaoAdmision {
         try {
             conexion = instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(sqlSelect);
-
+            
             resultado = consultaPreparada.executeQuery();
             datos = resultado.getMetaData();
-
+            
             int cantidadColumnas = datos.getColumnCount();
-
+            
             while (resultado.next()) {
                 Object arreglo[] = new Object[cantidadColumnas];
                 for (int i = 0; i < cantidadColumnas; i++) {
@@ -109,7 +127,7 @@ public class ImpleAdmisionDao implements DaoAdmision {
                 }
                 modelo.addRow(arreglo);
             }
-
+            
         } catch (SQLException e) {
             System.out.println("Error al listar las pacientes o doctores: " + e.getMessage());
         } finally {
@@ -122,7 +140,7 @@ public class ImpleAdmisionDao implements DaoAdmision {
             }
         }
     }
-
+    
     public void listarEnTablaAdmisiones(DefaultTableModel modelo) {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
@@ -133,12 +151,12 @@ public class ImpleAdmisionDao implements DaoAdmision {
         try {
             conexion = instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SQL_SELECT_ADMISION);
-
+            
             resultado = consultaPreparada.executeQuery();
             datos = resultado.getMetaData();
-
+            
             int cantidadColumnas = datos.getColumnCount();
-
+            
             while (resultado.next()) {
                 Object arreglo[] = new Object[cantidadColumnas];
                 for (int i = 0; i < cantidadColumnas; i++) {
@@ -146,7 +164,7 @@ public class ImpleAdmisionDao implements DaoAdmision {
                 }
                 modelo.addRow(arreglo);
             }
-
+            
         } catch (SQLException e) {
             System.out.println("Error al listar las admisiones: " + e.getMessage());
         } finally {
@@ -159,5 +177,5 @@ public class ImpleAdmisionDao implements DaoAdmision {
             }
         }
     }
-
+    
 }
