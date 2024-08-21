@@ -16,7 +16,7 @@ public class ImpleProvinciaDao implements DaoProvincia {
     /*CONSULTAS*/
     private static final String SQL_SELECT = "SELECT * FROM provincia";
     private static final String SQL_INSERT = "INSERT INTO provincia (nombre) VALUES (?)";
-    private static final String SQL_UPDATE = "";
+    private static final String SQL_UPDATE = "UPDATE provincia SET nombre = ? WHERE id_provincia =?";
     private static final String SQL_DELETE = "DELETE FROM provincia WHERE id_provincia = ?";
     private static final String SELECT_LISTARTABLA = "SELECT id_provincia,nombre FROM provincia ORDER BY nombre";
 
