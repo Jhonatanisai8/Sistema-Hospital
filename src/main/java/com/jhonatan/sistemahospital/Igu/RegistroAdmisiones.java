@@ -7,8 +7,6 @@ import com.jhonatan.sistemahospital.DaoImplementacion.ImpleAdmisionDao;
 import java.sql.*;
 import java.awt.Color;
 import java.awt.HeadlessException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -399,7 +397,7 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
 
                 conexion.commit();
                 JOptionPane.showMessageDialog(null, "Admición Registrado", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
-
+                limpiarCampos();
             } catch (HeadlessException | SQLException e) {
                 System.out.println("error en el boton registrar: " + e.getMessage());
                 try {
@@ -413,4 +411,11 @@ public class RegistroAdmisiones extends javax.swing.JPanel {
         }
     }
 
+    private void limpiarCampos(){
+        txtDiagnostico.setText("");
+        txtFechaAlta.setText("");
+        txtFechaIngreso.setText("");
+        listarDoctores();
+        listarPacientes();
+    }
 }

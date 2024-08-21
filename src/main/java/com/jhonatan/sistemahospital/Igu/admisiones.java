@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 public class admisiones extends javax.swing.JPanel {
 
     ImpleAdmisionDao admisionDao = new ImpleAdmisionDao();
-    private final String[] columnas = {"ID PACIENTE", "PACIENTE", "FECHA ADMISION", "FECHA ALTA", "DIAGNOSTICO", "ID DOCTOR", "DOCTOR"};
+    private final String[] columnas = {"ID Admision","ID PACIENTE", "PACIENTE", "FECHA ADMISION", "FECHA ALTA", "DIAGNOSTICO", "ID DOCTOR", "DOCTOR"};
     DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
     public admisiones() {
@@ -61,11 +61,11 @@ public class admisiones extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID Paciente", "Paciente", "Fecha Admisión", "Fecha Alta", "Diagnostico", "ID Doctor", "Doctor"
+                "ID Admision", "ID Paciente", "Paciente", "Fecha Admisión", "Fecha Alta", "Diagnostico", "ID Doctor", "Doctor"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
+                true, false, true, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

@@ -31,7 +31,7 @@ public class ImplePacienteDao implements DaoPaciente {
             + " INNER JOIN provincia ON paciente.id_provincia = provincia.id_provincia"
             + " ORDER BY paciente.nombre";
     
-    private static final String QSL_DELETE = "DELETE FROM paciente WHERE idpaciente = ?";
+    private static final String QSL_DELETE = "DELETE FROM paciente WHERE id_paciente = ?";
     
     @Override
     public List<Paciente> listarPacientes(String nombre) {

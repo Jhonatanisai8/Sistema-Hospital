@@ -31,8 +31,8 @@ public class registroProvincias extends javax.swing.JPanel {
         folioLbl.setForeground(Color.black);
         libroIdLbl.putClientProperty("FlatLaf.styleClass", "large");
         libroIdLbl.setForeground(Color.black);
-        txtID.putClientProperty("JTextField.placeholderText", "Ingrese el folio del usuario.");
-        txtNombre.putClientProperty("JTextField.placeholderText", "Ingrese el ID del Libro a prestar.");
+        txtID.putClientProperty("JTextField.placeholderText", "Ingrese el ID de la Provincia.");
+        txtNombre.putClientProperty("JTextField.placeholderText", "Ingrese el nombre de la Provincia.");
     }
 
     @SuppressWarnings("unchecked")

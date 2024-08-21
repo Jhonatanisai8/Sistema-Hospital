@@ -26,7 +26,8 @@ public class ImpleAdmisionDao implements DaoAdmision {
             + " CONCAT(doctor.nombre,' ',doctor.apellido)"
             + " FROM admision"
             + " INNER JOIN paciente ON admision.id_paciente = paciente.id_paciente"
-            + " INNER JOIN doctor ON admision.id_doctor = doctor.id_doctor";
+            + " INNER JOIN doctor ON admision.id_doctor = doctor.id_doctor"
+            + " ORDER BY admision.id_admision DESC";
 
     @Override
 
