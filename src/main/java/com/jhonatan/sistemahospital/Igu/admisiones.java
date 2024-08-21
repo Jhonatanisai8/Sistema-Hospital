@@ -1,14 +1,23 @@
 package com.jhonatan.sistemahospital.Igu;
 
+import com.jhonatan.sistemahospital.ClaseMain.Clases.Admision;
+import com.jhonatan.sistemahospital.ConexionBD.Conexion;
 import com.jhonatan.sistemahospital.DaoImplementacion.ImpleAdmisionDao;
 import java.awt.Color;
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class admisiones extends javax.swing.JPanel {
 
-    ImpleAdmisionDao admisionDao = new ImpleAdmisionDao();
-    private final String[] columnas = {"ID Admision","ID PACIENTE", "PACIENTE", "FECHA ADMISION", "FECHA ALTA", "DIAGNOSTICO", "ID DOCTOR", "DOCTOR"};
-    DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+    /*variable de tipo conexion*/
+    private Connection conexion = null;
+    private final Conexion instanciaMYSQL = Conexion.getInstancia();
+    private final ImpleAdmisionDao admisionDao = new ImpleAdmisionDao();
+    private final String[] columnas = {"ID Admision", "ID PACIENTE", "PACIENTE", "FECHA ADMISION", "FECHA ALTA", "DIAGNOSTICO", "ID DOCTOR", "DOCTOR"};
+    private final DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
     public admisiones() {
         initComponents();
@@ -182,7 +191,7 @@ public class admisiones extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBorarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorarActionPerformed
-        System.out.println("");
+        this.eliminarAdmision();
     }//GEN-LAST:event_btnBorarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -212,6 +221,48 @@ public class admisiones extends javax.swing.JPanel {
         }
         admisionDao.listarEnTablaAdmisiones(modelo);
         tblAdmisiones.setModel(modelo);
+    }
+
+    private void eliminarAdmision() {
+        int filasSeleccionadas[] = tblAdmisiones.getSelectedRows();
+        if (filasSeleccionadas.length == 0) {
+            JOptionPane.showMessageDialog(null, "Por favor selecciona una o más filas para eliminar.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        StringBuilder cantIds = new StringBuilder();
+        for (int i = 0; i < filasSeleccionadas.length; i++) {
+            String idPaciente = tblAdmisiones.getValueAt(filasSeleccionadas[i], 0).toString();
+            if (cantIds.length() > 0) {
+                cantIds.append(",");
+            }
+            cantIds.append(idPaciente);
+        }
+        try {
+            conexion = instanciaMYSQL.conectarConBaseDatos();
+            if (conexion.getAutoCommit()) {
+                conexion.setAutoCommit(false);
+            }
+            int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar los registros con ID: " + cantIds + "?", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
+                    int idAdmision = (int) tblAdmisiones.getValueAt(filasSeleccionadas[i], 0);
+                    Admision admisionEliminada = new Admision(idAdmision);
+                    admisionDao.eliminarAdmision(admisionEliminada);
+                }
+                conexion.commit();
+                JOptionPane.showMessageDialog(null, "Registros eliminados", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE);
+            }
+            this.listarEnTabla();
+        } catch (HeadlessException | SQLException e) {
+            System.out.println("Error el boton eliminar: " + e.toString());
+            try {
+                conexion.rollback();
+            } catch (SQLException ex) {
+                System.out.println("conexion.rollback(): " + ex.toString());
+            }
+        }
     }
 
 }
