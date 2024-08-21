@@ -18,7 +18,7 @@ public class ImpleDoctorDao implements DaoDoctor {
     /* consultas */
     private static final String SQL_SELECT = "select * from doctor";
     private static final String SQL_INSERT = "insert into doctor (nombre,apellido,especialidad) values (?,?,?)";
-    private static final String SQL_UPDATE = "update doctor set nombre = ?, apellido = ?, especialidad = ? where iddoctor = ?";
+    private static final String SQL_UPDATE = "update doctor set nombre = ?, apellido = ?, especialidad = ? where id_doctor = ?";
     private static final String SQL_DELETE = "delete from doctor where id_doctor = ?";
     private static final String SQL_SELECT_DOCTOR = "SELECT * FROM doctor WHERE id_doctor = ? LIMIT 1";
 

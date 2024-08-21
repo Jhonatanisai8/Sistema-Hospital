@@ -15,11 +15,14 @@ public class Registro_Doctor extends javax.swing.JPanel {
 
     /* Instancias de tipo de ImpleDoctorDao y Doctor */
     ImpleDoctorDao impleDoctorDao = new ImpleDoctorDao();
-    Doctor doctor = new Doctor();
 
     /* Variable de tipo conexion */
     Connection conexion = null;
     Conexion instanciaMYSQL = Conexion.getInstancia();
+
+    /*variables para poder editar un doctor*/
+    private boolean isEdition = false;
+    private Doctor doctorEditado;
 
     public Registro_Doctor() {
         initComponents();
@@ -28,6 +31,8 @@ public class Registro_Doctor extends javax.swing.JPanel {
 
     public Registro_Doctor(Doctor doctor) {
         initComponents();
+        isEdition = true;
+        this.doctorEditado = doctor;
         InitStyles();
     }
 
@@ -39,7 +44,15 @@ public class Registro_Doctor extends javax.swing.JPanel {
         txtNombre.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del doctor.");
         txtApellido.putClientProperty("JTextField.placeholderText", "Ingrese el apellido del doctor.");
         txtEspecialidad.putClientProperty("JTextField.placeholderText", "Ingrese la especialida del doctor.");
-        btnSubir.setText("Guardar");
+        if (isEdition) {
+            lblTitulo.setText("Informacion del Doctor: ");
+            btnSubir.setText("Guardar");
+            if (doctorEditado != null) {
+                txtNombre.setText(doctorEditado.getNombre());
+                txtApellido.setText(doctorEditado.getApellido());
+                txtEspecialidad.setText(doctorEditado.getEspecialidad());
+            }
+        }
 
     }
 
@@ -51,6 +64,7 @@ public class Registro_Doctor extends javax.swing.JPanel {
     }
 
     private void registrarDatos() {
+        Doctor doctor;
         String mensaje = ValidacionCamposDoctor.validarCampos(txtNombre, txtApellido, txtEspecialidad);
         /* variables para los atributos del dotor */
         String nombre, apellido, especialidad;
@@ -67,20 +81,37 @@ public class Registro_Doctor extends javax.swing.JPanel {
                 apellido = txtApellido.getText();
                 especialidad = txtEspecialidad.getText();
 
-                /* creamos el objeto de tipo doctor */
-                doctor = new Doctor(nombre, apellido, especialidad);
-                /* llamamos al metodo insertar de la clase impleDoctorDao */
-                impleDoctorDao.insertarDoctor(doctor);
-                /* Hacemos el commit */
-                conexion.commit();
-                JOptionPane.showMessageDialog(null, "Doctor registrado correctamente ", "REGISTRO DE DOCTOR",
-                        JOptionPane.INFORMATION_MESSAGE);
-                this.limpiarCampos();
+                try {
+                    /* creamos el objeto de tipo doctor */
+                    if (isEdition) {
+                        doctor = doctorEditado;
+                    } else {
+                        doctor = new Doctor(nombre, apellido, especialidad);
+                    }
 
+                    if (!isEdition) {
+                        impleDoctorDao.insertarDoctor(doctor);
+                        conexion.commit();
+                    } else {
+                        int idDoctor = doctor.getIdDoctor();
+                        doctor = new Doctor(idDoctor, nombre, apellido, especialidad);
+                        impleDoctorDao.modificarDoctor(doctor);
+                        conexion.commit();
+                        this.limpiarCampos();
+                    }
+
+                    String mensaje1 = isEdition ? "Modificado" : "Registrado";
+                    JOptionPane.showMessageDialog(null, "Doctor " + mensaje1 + ".", "ATENCION", JOptionPane.INFORMATION_MESSAGE);
+                    if (!isEdition) {
+                        this.limpiarCampos();
+                    }
+                } catch (HeadlessException e) {
+                    System.out.println("error al hacer operacion de editar o eliminar.");
+                }
             } catch (HeadlessException | NumberFormatException | SQLException e) {
                 System.out
                         .println("Error en el boton guardar al momento de insertar doctor: "
-                                + e.getMessage().toString());
+                                + e.getMessage());
                 try {
                     conexion.rollback();
                 } catch (SQLException ex) {
@@ -108,6 +139,7 @@ public class Registro_Doctor extends javax.swing.JPanel {
         image = new javax.swing.JLabel();
         txtEspecialidad = new javax.swing.JTextField();
         libroIdLbl1 = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -126,7 +158,7 @@ public class Registro_Doctor extends javax.swing.JPanel {
         btnSubir.setBackground(new java.awt.Color(18, 90, 173));
         btnSubir.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSubir.setForeground(new java.awt.Color(255, 255, 255));
-        btnSubir.setText("Prestar");
+        btnSubir.setText("Subir");
         btnSubir.setBorderPainted(false);
         btnSubir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnSubir.addActionListener(new java.awt.event.ActionListener() {
@@ -139,6 +171,8 @@ public class Registro_Doctor extends javax.swing.JPanel {
         image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/provincia (1).png"))); // NOI18N
 
         libroIdLbl1.setText("Especialida");
+
+        lblTitulo.setText("Doctor:");
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
@@ -168,7 +202,8 @@ public class Registro_Doctor extends javax.swing.JPanel {
                                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(libroIdLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(libroIdLbl1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(223, 223, 223)))
+                                .addGap(223, 223, 223))
+                            .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         bgLayout.setVerticalGroup(
@@ -177,7 +212,9 @@ public class Registro_Doctor extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addContainerGap()
+                        .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(folioLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(16, 16, 16)
                         .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -220,6 +257,7 @@ public class Registro_Doctor extends javax.swing.JPanel {
     private javax.swing.JLabel folioLbl;
     private javax.swing.JLabel image;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel libroIdLbl;
     private javax.swing.JLabel libroIdLbl1;
     private javax.swing.JTextField txtApellido;

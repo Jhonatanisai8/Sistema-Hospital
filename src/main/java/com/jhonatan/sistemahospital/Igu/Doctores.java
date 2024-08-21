@@ -10,7 +10,6 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -368,7 +367,7 @@ public class Doctores extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(null, """
                                                 Por favor selecione una fila
-                                                 para poder editar la informacion del doctor.""", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+                                                 para poder editar la informacion del Doctor.""", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
         }
     }
 }
