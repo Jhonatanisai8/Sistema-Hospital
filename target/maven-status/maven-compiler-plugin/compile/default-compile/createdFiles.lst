@@ -43,6 +43,7 @@ com\jhonatan\sistemahospital\Igu\Registro_Doctor.class
 com\jhonatan\sistemahospital\Igu\provincia$2.class
 com\jhonatan\sistemahospital\Igu\admisiones$3.class
 com\jhonatan\sistemahospital\Igu\Doctores$4.class
+com\jhonatan\sistemahospital\Igu\RegistroPacientes$4.class
 com\jhonatan\sistemahospital\Igu\RegistroPacientes.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$1.class
 com\jhonatan\sistemahospital\Igu\provincia$5.class
@@ -58,7 +59,6 @@ com\jhonatan\sistemahospital\DaoImplementacion\ImpleAdmisionDao.class
 com\jhonatan\sistemahospital\Igu\Dashboard$5.class
 com\jhonatan\sistemahospital\Igu\admisiones$1.class
 com\jhonatan\sistemahospital\Igu\Doctores.class
-com\jhonatan\sistemahospital\ClaseMain\Clases\Admision.class
 com\jhonatan\sistemahospital\Igu\Doctores$5.class
 com\jhonatan\sistemahospital\Igu\RegistroAdmisiones$3.class
 com\jhonatan\sistemahospital\Igu\Pacientes.class

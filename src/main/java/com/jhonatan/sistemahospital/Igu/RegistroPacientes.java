@@ -21,6 +21,9 @@ public class RegistroPacientes extends javax.swing.JPanel {
     Conexion instanciaMYSQL = Conexion.getInstancia();
 
     /*variables para editar un paciente*/
+    private boolean isEdition = false;
+    private Paciente pacienteEditado;
+
     public RegistroPacientes() {
         initComponents();
         InitStyles();
@@ -30,18 +33,43 @@ public class RegistroPacientes extends javax.swing.JPanel {
     /*constructor para editar*/
     public RegistroPacientes(Paciente paciente) {
         initComponents();
+        this.isEdition = true;
+        this.pacienteEditado = paciente;
         InitStyles();
     }
 
     private void InitStyles() {
-        title.putClientProperty("FlatLaf.styleClass", "h1");
-        title.setForeground(Color.black);
+        lblTitulo.putClientProperty("FlatLaf.styleClass", "h1");
+        lblTitulo.setForeground(Color.black);
         txtNombre.putClientProperty("JTextField.placeholderText", "Ingrese el nombre del Paciente.");
         txtApellido.putClientProperty("JTextField.placeholderText", "Ingrese el apellido del Paciente.");
         txtFechaNacimiento.putClientProperty("JTextField.placeholderText", "Fecha de Nacimiento.");
         txtCiudad.putClientProperty("JTextField.placeholderText", "Ingrese la ciudad del Paciente");
         txtPeso.putClientProperty("JTextField.placeholderText", "Peso del Paciente");
         txtAltura.putClientProperty("JTextField.placeholderText", "Altura del Paciente.");
+        if (isEdition) {
+            lblTitulo.setText("Informacion del Paciente");
+            btnSubir.setText("Guardar");
+
+            if (pacienteEditado != null) {
+                txtNombre.setText(pacienteEditado.getNombre());
+                txtApellido.setText(pacienteEditado.getApellido());
+                if (String.valueOf(pacienteEditado.getGenero()).equals("F")) {
+                    rtbFemenino.setSelected(true);
+                }
+
+                if (String.valueOf(pacienteEditado.getGenero()).equals("M")) {
+                    rtbMasculino.setSelected(true);
+                }
+
+                txtFechaNacimiento.setText(pacienteEditado.getFechaNacimiento().toString());
+                txtCiudad.setText(pacienteEditado.getCiudad());
+                txtAlergias.setText(pacienteEditado.getAlergias());
+                llenarComboIUnaSolaProvincia(pacienteEditado.getIdProvincia());
+                txtPeso.setText(pacienteEditado.getPeso() + "");
+                txtAltura.setText(pacienteEditado.getAltura() + "");
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -50,7 +78,7 @@ public class RegistroPacientes extends javax.swing.JPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         bg = new javax.swing.JPanel();
-        title = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
         titleLbl = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         dateLbl = new javax.swing.JLabel();
@@ -78,7 +106,7 @@ public class RegistroPacientes extends javax.swing.JPanel {
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
-        title.setText("Subir Paciente");
+        lblTitulo.setText("Subir Paciente");
 
         titleLbl.setText("Nombre");
 
@@ -135,6 +163,11 @@ public class RegistroPacientes extends javax.swing.JPanel {
         txtAlergias.setRows(5);
         jScrollPane2.setViewportView(txtAlergias);
 
+        cbxProvincia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxProvinciaMouseClicked(evt);
+            }
+        });
         cbxProvincia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxProvinciaActionPerformed(evt);
@@ -208,14 +241,14 @@ public class RegistroPacientes extends javax.swing.JPanel {
                                 .addComponent(cbxProvincia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(183, 183, 183))))
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(553, 553, 553))))
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgLayout.createSequentialGroup()
@@ -287,24 +320,32 @@ public class RegistroPacientes extends javax.swing.JPanel {
         this.getIdProvincia();
     }//GEN-LAST:event_cbxProvinciaActionPerformed
 
+    private void cbxProvinciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxProvinciaMouseClicked
+
+        /*
+        llenamos el combo otra vez
+         */
+        this.llenarCombo();
+    }//GEN-LAST:event_cbxProvinciaMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authorLbl;
     private javax.swing.JPanel bg;
     private javax.swing.JButton btnSubir;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel catLbl;
-    private javax.swing.JComboBox<Provincia> cbxProvincia;
+    private javax.swing.JComboBox<String> cbxProvincia;
     private javax.swing.JLabel dateLbl;
     private javax.swing.JLabel dispLbl;
     private javax.swing.JLabel edLbl;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel langLbl;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel pagsLbl;
     private javax.swing.JRadioButton rtbFemenino;
     private javax.swing.JRadioButton rtbMasculino;
     private javax.swing.JLabel stockLbl;
-    private javax.swing.JLabel title;
     private javax.swing.JLabel titleLbl;
     private javax.swing.JTextArea txtAlergias;
     private javax.swing.JTextField txtAltura;
@@ -319,13 +360,21 @@ public class RegistroPacientes extends javax.swing.JPanel {
         cbxProvincia.removeAllItems();
         List<Provincia> provincias = implePacienteDao.listarProvincias();
         for (Provincia provincia : provincias) {
-            cbxProvincia.addItem(provincia);
+            cbxProvincia.addItem(provincia.getNombre());
+        }
+    }
+
+    private void llenarComboIUnaSolaProvincia(int idProvincia) {
+        cbxProvincia.removeAllItems();
+        List<Provincia> provincias = implePacienteDao.listarUnaSolaProvincia(idProvincia);
+        for (Provincia provincia : provincias) {
+            cbxProvincia.addItem(provincia.getNombre());
         }
     }
 
     private int getIdProvincia() {
         int idProvincia;
-        idProvincia = cbxProvincia.getItemAt(cbxProvincia.getSelectedIndex()).getIdProvincia();
+        idProvincia = (cbxProvincia.getSelectedIndex()) + 1;
         System.out.println(String.valueOf(idProvincia));
         return idProvincia;
     }
@@ -423,7 +472,7 @@ public class RegistroPacientes extends javax.swing.JPanel {
 
                 ciudad = txtCiudad.getText();
 
-                idProvincia = this.getIdProvincia();
+                idProvincia = cbxProvincia.getSelectedIndex() + 1;
 
                 alergias = txtAlergias.getText();
 

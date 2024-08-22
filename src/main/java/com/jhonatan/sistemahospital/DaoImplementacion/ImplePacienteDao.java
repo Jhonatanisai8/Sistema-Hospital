@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class ImplePacienteDao implements DaoPaciente {
-    
+
     private Connection conexionMYSQL;
     Conexion instanciaMYSQL = Conexion.getInstancia();
     /* consultas */
@@ -30,7 +30,7 @@ public class ImplePacienteDao implements DaoPaciente {
             + " FROM paciente "
             + " INNER JOIN provincia ON paciente.id_provincia = provincia.id_provincia"
             + " ORDER BY paciente.nombre";
-    
+
     private static final String QSL_DELETE = "DELETE FROM paciente WHERE id_paciente = ?";
     private static final String SQL_UPDATE_PACIENTE = "UPDATE paciente "
             + " SET nombre = ?,"
@@ -44,13 +44,13 @@ public class ImplePacienteDao implements DaoPaciente {
             + " altura = ?"
             + " WHERE id_paciente = ?";
     private static final String SQL_SELECT_PACIENTE = "SELECT * FROM paciente WHERE id_paciente = ?";
-    
+
     @Override
     public List<Paciente> listarPacientes(String nombre) {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
-        
+
         List<Paciente> listaPacientes = null;
         String SQL_LISTAR = "SELECT * FROM paciente WHERE nombre LIKE '%" + nombre + "%'";
         try {
@@ -59,7 +59,7 @@ public class ImplePacienteDao implements DaoPaciente {
             consultaPreparada = conexion.prepareStatement(SQL_SELECT);
             resultado = consultaPreparada.executeQuery();
             listaPacientes = new ArrayList<>();
-            
+
             while (resultado.next()) {
                 Paciente paciente = new Paciente(
                         resultado.getInt("id_paciente"),
@@ -74,7 +74,7 @@ public class ImplePacienteDao implements DaoPaciente {
                         resultado.getDouble("altura"));
                 listaPacientes.add(paciente);
             }
-            
+
         } catch (SQLException e) {
             System.out.println("Error al listar pacientes: " + e.getMessage());
         } finally {
@@ -86,7 +86,7 @@ public class ImplePacienteDao implements DaoPaciente {
         }
         return listaPacientes;
     }
-    
+
     @Override
     public int insertarPaciente(Paciente paciente) {
         Connection conexion = null;
@@ -94,7 +94,7 @@ public class ImplePacienteDao implements DaoPaciente {
         int registros = 0;
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
-            
+
             consultaPreparada = conexion.prepareStatement(SQL_INSERT);
             consultaPreparada.setString(1, paciente.getNombre());
             consultaPreparada.setString(2, paciente.getApellido());
@@ -106,44 +106,9 @@ public class ImplePacienteDao implements DaoPaciente {
             consultaPreparada.setString(7, paciente.getAlergias());
             consultaPreparada.setDouble(8, paciente.getPeso());
             consultaPreparada.setDouble(9, paciente.getAltura());
-            consultaPreparada.setInt(10, paciente.getIdPaciente());
-            
+
             registros = consultaPreparada.executeUpdate();
-            
-        } catch (SQLException e) {
-            System.out.println("Error al modificar un paciente: " + e.toString());
-        } finally {
-            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
-            if (this.conexionMYSQL == null) {
-                instanciaMYSQL.desconectarBD(conexion);
-            }
-        }
-        /* retornamos */
-        return registros;
-    }
-    
-    @Override
-    public int modificarPaciente(Paciente paciente) {
-        Connection conexion = null;
-        PreparedStatement consultaPreparada = null;
-        int registros = 0;
-        try {
-            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
-            
-            consultaPreparada = conexion.prepareStatement(SQL_UPDATE_PACIENTE);
-            consultaPreparada.setString(1, paciente.getNombre());
-            consultaPreparada.setString(2, paciente.getApellido());
-            consultaPreparada.setString(3, String.valueOf(paciente.getGenero()));
-            java.sql.Date sqlDate = new java.sql.Date(paciente.getFechaNacimiento().getTime());
-            consultaPreparada.setDate(4, sqlDate);
-            consultaPreparada.setString(5, paciente.getCiudad());
-            consultaPreparada.setInt(6, paciente.getIdProvincia());
-            consultaPreparada.setString(7, paciente.getAlergias());
-            consultaPreparada.setDouble(8, paciente.getPeso());
-            consultaPreparada.setDouble(9, paciente.getAltura());
-            
-            registros = consultaPreparada.executeUpdate();
-            
+
         } catch (SQLException e) {
             System.out.println("Error al insertar un paciente: " + e.toString());
         } finally {
@@ -155,7 +120,41 @@ public class ImplePacienteDao implements DaoPaciente {
         /* retornamos */
         return registros;
     }
-    
+
+    @Override
+    public int modificarPaciente(Paciente paciente) {
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        int registros = 0;
+        try {
+            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
+
+            consultaPreparada = conexion.prepareStatement(SQL_UPDATE_PACIENTE);
+            consultaPreparada.setString(1, paciente.getNombre());
+            consultaPreparada.setString(2, paciente.getApellido());
+            consultaPreparada.setString(3, String.valueOf(paciente.getGenero()));
+            java.sql.Date sqlDate = new java.sql.Date(paciente.getFechaNacimiento().getTime());
+            consultaPreparada.setDate(4, sqlDate);
+            consultaPreparada.setString(5, paciente.getCiudad());
+            consultaPreparada.setInt(6, paciente.getIdProvincia());
+            consultaPreparada.setString(7, paciente.getAlergias());
+            consultaPreparada.setDouble(8, paciente.getPeso());
+            consultaPreparada.setDouble(9, paciente.getAltura());
+            consultaPreparada.setInt(10, paciente.getIdPaciente());
+            registros = consultaPreparada.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error al MODIFICAr un paciente: " + e.toString());
+        } finally {
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+        /* retornamos */
+        return registros;
+    }
+
     @Override
     public int eliminarPaciente(Paciente paciente) {
         Connection conexion = null;
@@ -177,21 +176,21 @@ public class ImplePacienteDao implements DaoPaciente {
         }
         return registros;
     }
-    
+
     @Override
     public Paciente obtenerInformacionPaciente(int id) {
         Paciente paciente = null;
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
-        
+
         try {
             conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SQL_SELECT_PACIENTE);
             consultaPreparada.setInt(1, id);
-            
+
             resultado = consultaPreparada.executeQuery();
-            
+
             while (resultado.next()) {
                 /*le establecemos los atributos*/
                 paciente = new Paciente(
@@ -218,11 +217,11 @@ public class ImplePacienteDao implements DaoPaciente {
         }
         return paciente;
     }
-    
+
     public List<Provincia> listarProvincias() {
         List<Provincia> listaProvincias = new ArrayList<>();
         String SQL_NOMBRE_FABRICANTE = "SELECT id_provincia,nombre FROM provincia";
-        
+
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
@@ -236,7 +235,7 @@ public class ImplePacienteDao implements DaoPaciente {
                 p.setNombre(resultado.getString("nombre"));
                 listaProvincias.add(p);
             }
-            
+
         } catch (SQLException e) {
             System.out.println("Error al listar pacientes en el combo box: " + e.toString());
         } finally {
@@ -248,21 +247,21 @@ public class ImplePacienteDao implements DaoPaciente {
         }
         return listaProvincias;
     }
-    
+
     public void listarTabla(DefaultTableModel model) {
         Connection conexion = null;
         PreparedStatement consultaPreparada = null;
         ResultSet resultado = null;
         ResultSetMetaData datos = null;
-        
+
         try {
             conexion = instanciaMYSQL.conectarConBaseDatos();
             consultaPreparada = conexion.prepareStatement(SQL_LISTARPACIENTE_PROVINCIA);
             resultado = consultaPreparada.executeQuery();
             datos = resultado.getMetaData();
-            
+
             int cantidadColumnas = datos.getColumnCount();
-            
+
             while (resultado.next()) {
                 Object arreglo[] = new Object[cantidadColumnas];
                 for (int i = 0; i < cantidadColumnas; i++) {
@@ -281,6 +280,37 @@ public class ImplePacienteDao implements DaoPaciente {
                 instanciaMYSQL.desconectarBD(conexion);
             }
         }
-        
+
     }
+
+    public List<Provincia> listarUnaSolaProvincia(int id) {
+        List<Provincia> listaProvincias = new ArrayList<>();
+        String SQL_NOMBRE_Provincia = "SELECT  id_provincia,nombre FROM provincia WHERE id_provincia = ?";
+        Connection conexion = null;
+        PreparedStatement consultaPreparada = null;
+        ResultSet resultado = null;
+        try {
+            conexion = this.conexionMYSQL != null ? this.conexionMYSQL : instanciaMYSQL.conectarConBaseDatos();
+            consultaPreparada = conexion.prepareStatement(SQL_NOMBRE_Provincia);
+            consultaPreparada.setInt(1, id);
+            resultado = consultaPreparada.executeQuery();
+            while (resultado.next()) {
+                Provincia p = new Provincia();
+                p.setIdProvincia(resultado.getInt("id_provincia"));
+                p.setNombre(resultado.getString("nombre"));
+                listaProvincias.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al listar listar una sola provincia " + e.toString());
+        } finally {
+            instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
+            instanciaMYSQL.cerrarResultSet(resultado);
+            if (this.conexionMYSQL == null) {
+                instanciaMYSQL.desconectarBD(conexion);
+            }
+        }
+        return listaProvincias;
+    }
+
 }
