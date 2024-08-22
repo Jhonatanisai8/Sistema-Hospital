@@ -20,10 +20,17 @@ public class RegistroPacientes extends javax.swing.JPanel {
     Connection conexion = null;
     Conexion instanciaMYSQL = Conexion.getInstancia();
 
+    /*variables para editar un paciente*/
     public RegistroPacientes() {
         initComponents();
         InitStyles();
         this.llenarCombo();
+    }
+
+    /*constructor para editar*/
+    public RegistroPacientes(Paciente paciente) {
+        initComponents();
+        InitStyles();
     }
 
     private void InitStyles() {

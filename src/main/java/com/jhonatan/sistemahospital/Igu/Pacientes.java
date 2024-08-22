@@ -197,7 +197,7 @@ public class Pacientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        System.out.println("");
+        this.seleccionarPaciente();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -290,6 +290,24 @@ public class Pacientes extends javax.swing.JPanel {
                 System.out.println("conexion.rollback(): " + ex.toString());
             }
         }
+    }
+    
+    private void seleccionarPaciente() {
+        int fila[] = tblPacientes.getSelectedRows();
+        if (fila.length == 0) {
+            JOptionPane.showMessageDialog(null, "Por favor debe seleccionar una fila.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if (fila.length > 1) {
+            JOptionPane.showMessageDialog(null, "Por favor solo debe seleccionar una fila, no varias.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        int filaVerdad = tblPacientes.getSelectedRow();
+        int idPaciente = (int) tblPacientes.getValueAt(filaVerdad, 0);
+        Paciente paciente = implePacienteDao.obtenerInformacionPaciente(idPaciente);
+        Dashboard.ShowJPanel(new RegistroPacientes(paciente));
     }
     
 }

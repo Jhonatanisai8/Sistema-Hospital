@@ -111,7 +111,7 @@ public class ImplePacienteDao implements DaoPaciente {
             registros = consultaPreparada.executeUpdate();
             
         } catch (SQLException e) {
-            System.out.println("Error al insertar un paciente: " + e.toString());
+            System.out.println("Error al modificar un paciente: " + e.toString());
         } finally {
             instanciaMYSQL.cerrarPreparedStatement(consultaPreparada);
             if (this.conexionMYSQL == null) {
